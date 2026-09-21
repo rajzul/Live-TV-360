@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -9,6 +10,7 @@
 <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
 
 <style>
+
 * {
     box-sizing: border-box;
 }
@@ -21,6 +23,7 @@ body {
 }
 
 /* HEADER */
+
 header {
     background: #111;
     padding: 18px;
@@ -31,6 +34,7 @@ header {
 }
 
 /* MAIN */
+
 .container {
     max-width: 1200px;
     margin: auto;
@@ -38,6 +42,7 @@ header {
 }
 
 /* PLAYER */
+
 .player-box {
     background: #000;
     border-radius: 12px;
@@ -54,6 +59,7 @@ video {
 }
 
 /* LOADING */
+
 .loading {
     position: absolute;
     top: 50%;
@@ -64,6 +70,7 @@ video {
 }
 
 /* NOW PLAYING */
+
 .now-playing {
     background: #111;
     padding: 15px;
@@ -72,6 +79,7 @@ video {
 }
 
 /* SEARCH */
+
 .search {
     width: 100%;
     padding: 14px;
@@ -89,6 +97,7 @@ video {
 }
 
 /* CHANNELS */
+
 .channels {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
@@ -96,6 +105,7 @@ video {
 }
 
 /* CHANNEL */
+
 .channel {
     background: #151515;
     padding: 14px;
@@ -117,6 +127,7 @@ video {
 }
 
 /* LOGO */
+
 .logo {
     width: 65px;
     height: 65px;
@@ -128,33 +139,12 @@ video {
     border-radius: 8px;
 }
 
-/* FOOTER */
-footer {
-    text-align: center;
-    color: #777;
-    padding: 30px;
-}
-
-/* MOBILE */
-@media(max-width:600px) {
-
-    header {
-        font-size: 20px;
-    }
-
-    .channels {
-        grid-template-columns: repeat(2, 1fr);
-    }
-
-    .channel {
-        font-size: 14px;
-    }
 /* ============================= */
-/* 📰 NEWS SECTION */
+/* NEWS SECTION */
 /* ============================= */
 
 .news-section {
-    margin-top: 30px;
+    margin-top: 35px;
     padding: 20px 0;
 }
 
@@ -212,8 +202,39 @@ footer {
 .news-content a:hover {
     background: #ff2222;
 }
+
+/* FOOTER */
+
+footer {
+    text-align: center;
+    color: #777;
+    padding: 30px;
 }
+
+/* MOBILE */
+
+@media(max-width:600px) {
+
+    header {
+        font-size: 20px;
+    }
+
+    .channels {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .channel {
+        font-size: 14px;
+    }
+
+    .news-container {
+        grid-template-columns: 1fr;
+    }
+
+}
+
 </style>
+
 </head>
 
 <body>
@@ -221,6 +242,7 @@ footer {
 <header>
 📺 MY LIVE TV
 </header>
+
 
 <div class="container">
 
@@ -235,6 +257,7 @@ footer {
         </div>
 
     </div>
+
 
     <div id="nowPlaying" class="now-playing">
         📺 Select a channel
@@ -255,14 +278,9 @@ footer {
 
     <div id="channels" class="channels"></div>
 
-</div>
-    <!-- CHANNEL LIST -->
-
-    <div id="channels" class="channels"></div>
- <footer>
 
     <!-- ============================= -->
-    <!-- 📰 NEWS SECTION - START -->
+    <!-- NEWS SECTION -->
     <!-- ============================= -->
 
     <section class="news-section">
@@ -271,7 +289,9 @@ footer {
 
         <div class="news-container">
 
+
             <!-- NEWS 1 -->
+
             <div class="news-card">
 
                 <img
@@ -288,7 +308,9 @@ footer {
                         আপনি নিজের মতো করে এই লেখা পরিবর্তন করতে পারবেন।
                     </p>
 
-                    <a href="#">Read More</a>
+                    <a href="#">
+                        Read More
+                    </a>
 
                 </div>
 
@@ -296,6 +318,7 @@ footer {
 
 
             <!-- NEWS 2 -->
+
             <div class="news-card">
 
                 <img
@@ -311,7 +334,9 @@ footer {
                         এখানে দ্বিতীয় নিউজের সংক্ষিপ্ত বিবরণ লিখুন।
                     </p>
 
-                    <a href="#">Read More</a>
+                    <a href="#">
+                        Read More
+                    </a>
 
                 </div>
 
@@ -319,6 +344,7 @@ footer {
 
 
             <!-- NEWS 3 -->
+
             <div class="news-card">
 
                 <img
@@ -334,7 +360,9 @@ footer {
                         আপনার নতুন খবর বা আপডেট এখানে প্রকাশ করতে পারবেন।
                     </p>
 
-                    <a href="#">Read More</a>
+                    <a href="#">
+                        Read More
+                    </a>
 
                 </div>
 
@@ -344,12 +372,11 @@ footer {
 
     </section>
 
-    <!-- 📰 NEWS SECTION - END -->
-
-
 </div>
 
-</footer>
+
+<!-- FOOTER -->
+
 <footer>
 © 2026 My Live TV
 </footer>
@@ -376,7 +403,7 @@ const channels = [
     },
 
     {
-        name: "Live Tv",
+        name: "Live TV",
         logo: "https://via.placeholder.com/100",
         url: "https://YOUR-M3U8-LINK/channel3.m3u8"
     }
@@ -410,7 +437,6 @@ function playChannel(channel, element) {
 
     loading.style.display = "block";
 
-    /* Destroy previous player */
 
     if (hls) {
         hls.destroy();
@@ -418,7 +444,7 @@ function playChannel(channel, element) {
     }
 
 
-    /* Safari / Native HLS */
+    /* Safari */
 
     if (video.canPlayType("application/vnd.apple.mpegurl")) {
 
@@ -464,8 +490,6 @@ function playChannel(channel, element) {
             }
         );
 
-
-        /* ERROR */
 
         hls.on(
             Hls.Events.ERROR,
@@ -561,8 +585,8 @@ search.addEventListener(
             channels.filter(channel =>
 
                 channel.name
-                .toLowerCase()
-                .includes(keyword)
+                    .toLowerCase()
+                    .includes(keyword)
 
             );
 
