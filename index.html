@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>My Live TV</title>
+
+<script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    background: #080808;
+    color: #fff;
+    font-family: Arial, sans-serif;
+}
+
+/* HEADER */
+header {
+    background: #111;
+    padding: 18px;
+    text-align: center;
+    font-size: 25px;
+    font-weight: bold;
+    border-bottom: 1px solid #222;
+}
+
+/* MAIN */
+.container {
+    max-width: 1200px;
+    margin: auto;
+    padding: 15px;
+}
+
+/* PLAYER */
+.player-box {
+    background: #000;
+    border-radius: 12px;
+    overflow: hidden;
+    position: relative;
+    box-shadow: 0 0 25px rgba(0,0,0,.6);
+}
+
+video {
+    width: 100%;
+    display: block;
+    aspect-ratio: 16/9;
+    background: #000;
+}
+
+/* LOADING */
+.loading {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: none;
+    font-size: 18px;
+}
+
+/* NOW PLAYING */
+.now-playing {
+    background: #111;
+    padding: 15px;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+/* SEARCH */
+.search {
+    width: 100%;
+    padding: 14px;
+    margin: 18px 0;
+    border: none;
+    border-radius: 8px;
+    background: #181818;
+    color: white;
+    font-size: 16px;
+    outline: none;
+}
+
+.search::placeholder {
+    color: #888;
+}
+
+/* CHANNELS */
+.channels {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 12px;
+}
+
+/* CHANNEL */
+.channel {
+    background: #151515;
+    padding: 14px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: .2s;
+    text-align: center;
+    border: 1px solid #222;
+}
+
+.channel:hover {
+    transform: translateY(-3px);
+    background: #222;
+}
+
+.channel.active {
+    background: #d90000;
+    border-color: #ff3333;
+}
+
+/* LOGO */
+.logo {
+    width: 65px;
+    height: 65px;
+    object-fit: contain;
+    display: block;
+    margin: auto;
+    margin-bottom: 8px;
+    background: #000;
+    border-radius: 8px;
+}
+
+/* FOOTER */
+footer {
+    text-align: center;
+    color: #777;
+    padding: 30px;
+}
+
+/* MOBILE */
+@media(max-width:600px) {
+
+    header {
+        font-size: 20px;
+    }
+
+    .channels {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .channel {
+        font-size: 14px;
+    }
+
+}
+</style>
+</head>
+
+<body>
+
+<header>
+📺 MY LIVE TV
+</header>
+
+<div class="container">
+
+    <!-- PLAYER -->
+
+    <div class="player-box">
+
+        <video id="video" controls playsinline></video>
+
+        <div id="loading" class="loading">
+            ⏳ Loading...
+        </div>
+
+    </div>
+
+    <div id="nowPlaying" class="now-playing">
+        📺 Select a channel
+    </div>
+
+
+    <!-- SEARCH -->
+
+    <input
+        type="text"
+        id="search"
+        class="search"
+        placeholder="🔎 Search channel..."
+    >
+
+
+    <!-- CHANNEL LIST -->
+
+    <div id="channels" class="channels"></div>
+
+</div>
+
+<footer>
+© 2026 My Live TV
+</footer>
+
+
+<script>
+
+/* =========================================
+   YOUR CHANNELS
+========================================= */
+
+const channels = [
+
+    {
+        name: "9X TSHAN",
+        logo: "https://via.placeholder.com/100",
+        url: "https://wiselp.wiseplayout.com/9X_Tashan/master.m3u8"
+    },
+
+    {
+        name: "Channel 2",
+        logo: "https://via.placeholder.com/100",
+        url: "https://YOUR-M3U8-LINK/channel2.m3u8"
+    },
+
+    {
+        name: "Live Tv",
+        logo: "https://via.placeholder.com/100",
+        url: "https://YOUR-M3U8-LINK/channel3.m3u8"
+    }
+
+];
+
+
+const video = document.getElementById("video");
+const channelBox = document.getElementById("channels");
+const nowPlaying = document.getElementById("nowPlaying");
+const loading = document.getElementById("loading");
+const search = document.getElementById("search");
+
+let hls;
+
+
+/* =========================================
+   PLAY CHANNEL
+========================================= */
+
+function playChannel(channel, element) {
+
+    nowPlaying.innerText = "🔴 LIVE — " + channel.name;
+
+    document.querySelectorAll(".channel")
+        .forEach(el => el.classList.remove("active"));
+
+    if (element) {
+        element.classList.add("active");
+    }
+
+    loading.style.display = "block";
+
+    /* Destroy previous player */
+
+    if (hls) {
+        hls.destroy();
+        hls = null;
+    }
+
+
+    /* Safari / Native HLS */
+
+    if (video.canPlayType("application/vnd.apple.mpegurl")) {
+
+        video.src = channel.url;
+
+        video.play()
+            .then(() => {
+                loading.style.display = "none";
+            })
+            .catch(() => {});
+
+    }
+
+
+    /* Chrome / Edge / Firefox */
+
+    else if (Hls.isSupported()) {
+
+        hls = new Hls({
+
+            enableWorker: true,
+
+            lowLatencyMode: true,
+
+            backBufferLength: 90
+
+        });
+
+
+        hls.loadSource(channel.url);
+
+        hls.attachMedia(video);
+
+
+        hls.on(
+            Hls.Events.MANIFEST_PARSED,
+            function () {
+
+                loading.style.display = "none";
+
+                video.play().catch(() => {});
+
+            }
+        );
+
+
+        /* ERROR */
+
+        hls.on(
+            Hls.Events.ERROR,
+            function (event, data) {
+
+                console.log("HLS ERROR:", data);
+
+                if (data.fatal) {
+
+                    loading.style.display = "none";
+
+                    nowPlaying.innerText =
+                        "⚠️ Stream cannot be played";
+
+                }
+
+            }
+        );
+
+    }
+
+    else {
+
+        loading.style.display = "none";
+
+        alert(
+            "Your browser does not support M3U8/HLS."
+        );
+
+    }
+
+}
+
+
+/* =========================================
+   SHOW CHANNELS
+========================================= */
+
+function showChannels(list) {
+
+    channelBox.innerHTML = "";
+
+
+    list.forEach(channel => {
+
+        const div = document.createElement("div");
+
+        div.className = "channel";
+
+
+        div.innerHTML = `
+
+            <img
+                class="logo"
+                src="${channel.logo}"
+                onerror="this.style.display='none'"
+            >
+
+            <div>
+                ${channel.name}
+            </div>
+
+        `;
+
+
+        div.onclick = function () {
+
+            playChannel(channel, div);
+
+        };
+
+
+        channelBox.appendChild(div);
+
+    });
+
+}
+
+
+/* =========================================
+   SEARCH
+========================================= */
+
+search.addEventListener(
+    "input",
+    function () {
+
+        const keyword =
+            search.value.toLowerCase();
+
+
+        const filtered =
+            channels.filter(channel =>
+
+                channel.name
+                .toLowerCase()
+                .includes(keyword)
+
+            );
+
+
+        showChannels(filtered);
+
+    }
+);
+
+
+/* =========================================
+   START
+========================================= */
+
+showChannels(channels);
+
+</script>
+
+</body>
+</html>
