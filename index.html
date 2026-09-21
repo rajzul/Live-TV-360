@@ -149,7 +149,69 @@ footer {
     .channel {
         font-size: 14px;
     }
+/* ============================= */
+/* 📰 NEWS SECTION */
+/* ============================= */
 
+.news-section {
+    margin-top: 30px;
+    padding: 20px 0;
+}
+
+.news-section h2 {
+    text-align: center;
+    font-size: 28px;
+    margin-bottom: 20px;
+}
+
+.news-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 18px;
+}
+
+.news-card {
+    background: #151515;
+    border: 1px solid #292929;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.news-card img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    display: block;
+}
+
+.news-content {
+    padding: 15px;
+}
+
+.news-content h3 {
+    margin: 0 0 10px;
+    font-size: 20px;
+}
+
+.news-content p {
+    color: #bbb;
+    line-height: 1.6;
+    font-size: 15px;
+}
+
+.news-content a {
+    display: inline-block;
+    margin-top: 8px;
+    padding: 8px 14px;
+    background: #d90000;
+    color: white;
+    text-decoration: none;
+    border-radius: 6px;
+}
+
+.news-content a:hover {
+    background: #ff2222;
+}
 }
 </style>
 </head>
@@ -194,7 +256,100 @@ footer {
     <div id="channels" class="channels"></div>
 
 </div>
+    <!-- CHANNEL LIST -->
 
+    <div id="channels" class="channels"></div>
+ <footer>
+
+    <!-- ============================= -->
+    <!-- 📰 NEWS SECTION - START -->
+    <!-- ============================= -->
+
+    <section class="news-section">
+
+        <h2>📰 Latest News</h2>
+
+        <div class="news-container">
+
+            <!-- NEWS 1 -->
+            <div class="news-card">
+
+                <img
+                    src="https://images.unsplash.com/photo-1504711434969-e33886168f5c"
+                    alt="News"
+                >
+
+                <div class="news-content">
+
+                    <h3>আজকের সর্বশেষ খবর</h3>
+
+                    <p>
+                        এখানে আপনার নিউজের বিস্তারিত লেখা থাকবে।
+                        আপনি নিজের মতো করে এই লেখা পরিবর্তন করতে পারবেন।
+                    </p>
+
+                    <a href="#">Read More</a>
+
+                </div>
+
+            </div>
+
+
+            <!-- NEWS 2 -->
+            <div class="news-card">
+
+                <img
+                    src="https://images.unsplash.com/photo-1495020689067-958852a7765e"
+                    alt="News"
+                >
+
+                <div class="news-content">
+
+                    <h3>আজকের গুরুত্বপূর্ণ সংবাদ</h3>
+
+                    <p>
+                        এখানে দ্বিতীয় নিউজের সংক্ষিপ্ত বিবরণ লিখুন।
+                    </p>
+
+                    <a href="#">Read More</a>
+
+                </div>
+
+            </div>
+
+
+            <!-- NEWS 3 -->
+            <div class="news-card">
+
+                <img
+                    src="https://images.unsplash.com/photo-1585829365295-ab7cd400c167"
+                    alt="News"
+                >
+
+                <div class="news-content">
+
+                    <h3>সর্বশেষ আপডেট</h3>
+
+                    <p>
+                        আপনার নতুন খবর বা আপডেট এখানে প্রকাশ করতে পারবেন।
+                    </p>
+
+                    <a href="#">Read More</a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- 📰 NEWS SECTION - END -->
+
+
+</div>
+
+</footer>
 <footer>
 © 2026 My Live TV
 </footer>
