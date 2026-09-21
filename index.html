@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 
 <meta charset="UTF-8">
@@ -10,6 +11,10 @@
 <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
 
 <style>
+
+/* ============================= */
+/* BASIC */
+/* ============================= */
 
 * {
     box-sizing: border-box;
@@ -22,7 +27,9 @@ body {
     font-family: Arial, sans-serif;
 }
 
+/* ============================= */
 /* HEADER */
+/* ============================= */
 
 header {
     background: #111;
@@ -33,7 +40,9 @@ header {
     border-bottom: 1px solid #222;
 }
 
-/* MAIN */
+/* ============================= */
+/* MAIN CONTAINER */
+/* ============================= */
 
 .container {
     max-width: 1200px;
@@ -41,7 +50,9 @@ header {
     padding: 15px;
 }
 
+/* ============================= */
 /* PLAYER */
+/* ============================= */
 
 .player-box {
     background: #000;
@@ -54,11 +65,13 @@ header {
 video {
     width: 100%;
     display: block;
-    aspect-ratio: 16/9;
+    aspect-ratio: 16 / 9;
     background: #000;
 }
 
+/* ============================= */
 /* LOADING */
+/* ============================= */
 
 .loading {
     position: absolute;
@@ -69,16 +82,44 @@ video {
     font-size: 18px;
 }
 
+/* ============================= */
 /* NOW PLAYING */
+/* ============================= */
 
 .now-playing {
     background: #111;
     padding: 15px;
     font-size: 18px;
     font-weight: bold;
+    margin-top: 2px;
 }
 
+/* ============================= */
+/* ADS */
+/* ============================= */
+
+.ad-box {
+    width: 100%;
+    max-width: 728px;
+    min-height: 90px;
+    margin: 20px auto;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    background: #111;
+    border-radius: 8px;
+}
+
+.ad-box iframe {
+    max-width: 100%;
+    border: 0;
+}
+
+/* ============================= */
 /* SEARCH */
+/* ============================= */
 
 .search {
     width: 100%;
@@ -96,7 +137,9 @@ video {
     color: #888;
 }
 
+/* ============================= */
 /* CHANNELS */
+/* ============================= */
 
 .channels {
     display: grid;
@@ -104,7 +147,9 @@ video {
     gap: 12px;
 }
 
+/* ============================= */
 /* CHANNEL */
+/* ============================= */
 
 .channel {
     background: #151515;
@@ -126,7 +171,9 @@ video {
     border-color: #ff3333;
 }
 
-/* LOGO */
+/* ============================= */
+/* CHANNEL LOGO */
+/* ============================= */
 
 .logo {
     width: 65px;
@@ -203,7 +250,9 @@ video {
     background: #ff2222;
 }
 
+/* ============================= */
 /* FOOTER */
+/* ============================= */
 
 footer {
     text-align: center;
@@ -211,7 +260,9 @@ footer {
     padding: 30px;
 }
 
+/* ============================= */
 /* MOBILE */
+/* ============================= */
 
 @media(max-width:600px) {
 
@@ -231,13 +282,23 @@ footer {
         grid-template-columns: 1fr;
     }
 
+    .ad-box {
+        min-height: 50px;
+        margin: 15px auto;
+    }
+
 }
 
 </style>
 
 </head>
 
+
 <body>
+
+<!-- ============================= -->
+<!-- HEADER -->
+<!-- ============================= -->
 
 <header>
 📺 MY LIVE TV
@@ -246,162 +307,226 @@ footer {
 
 <div class="container">
 
-    <!-- PLAYER -->
 
-    <div class="player-box">
+<!-- ============================= -->
+<!-- VIDEO PLAYER -->
+<!-- ============================= -->
 
-        <video id="video" controls playsinline></video>
+<div class="player-box">
 
-        <div id="loading" class="loading">
-            ⏳ Loading...
-        </div>
+    <video
+        id="video"
+        controls
+        playsinline>
+    </video>
 
+    <div id="loading" class="loading">
+        ⏳ Loading...
     </div>
 
+</div>
 
-    <div id="nowPlaying" class="now-playing">
-        📺 Select a channel
-    </div>
+
+<!-- ============================= -->
+<!-- NOW PLAYING -->
+<!-- ============================= -->
+
+<div id="nowPlaying" class="now-playing">
+    📺 Select a channel
+</div>
+
+
+<!-- ============================= -->
+<!-- AD 1 -->
+<!-- PLAYER-এর নিচে -->
+<!-- ============================= -->
+
+<div class="ad-box">
+
 <script>
-  atOptions = {
+atOptions = {
     'key' : 'b210f3c838da539571cda73d02ec62cf',
     'format' : 'iframe',
     'height' : 90,
     'width' : 728,
     'params' : {}
-  };
+};
 </script>
+
 <script src="https://www.highrevenueformat.com/b210f3c838da539571cda73d02ec62cf/invoke.js"></script>
 
-    <!-- SEARCH -->
-
-    <input
-        type="text"
-        id="search"
-        class="search"
-        placeholder="🔎 Search channel..."
-    >
+</div>
 
 
-    <!-- CHANNEL LIST -->
+<!-- ============================= -->
+<!-- SEARCH -->
+<!-- ============================= -->
 
-    <div id="channels" class="channels"></div>
-<script async="async" data-cfasync="false" src="https://pl28570341.profitableratecpmnetwork.com/7b81f78429649ff757f5786b7801dde3/invoke.js"></script>
+<input
+    type="text"
+    id="search"
+    class="search"
+    placeholder="🔎 Search channel..."
+>
+
+
+<!-- ============================= -->
+<!-- CHANNEL LIST -->
+<!-- ============================= -->
+
+<div id="channels" class="channels"></div>
+
+
+<!-- ============================= -->
+<!-- AD 2 -->
+<!-- CHANNEL LIST-এর নিচে -->
+<!-- ============================= -->
+
+<div class="ad-box">
+
+<script
+    async="async"
+    data-cfasync="false"
+    src="https://pl28570341.profitableratecpmnetwork.com/7b81f78429649ff757f5786b7801dde3/invoke.js">
+</script>
+
 <div id="container-7b81f78429649ff757f5786b7801dde3"></div>
 
-    <!-- ============================= -->
-    <!-- NEWS SECTION -->
-    <!-- ============================= -->
+</div>
+
+
+<!-- ============================= -->
+<!-- AD 3 -->
+<!-- NEWS-এর আগে -->
+<!-- ============================= -->
+
+<div class="ad-box">
+
 <script src="https://pl29675353.profitableratecpmnetwork.com/b9/61/b1/b961b1a6b93a047001b62b37baa7364b.js"></script>
-    <section class="news-section">
 
-        <h2>📰 Latest News</h2>
-
-        <div class="news-container">
+</div>
 
 
-            <!-- NEWS 1 -->
+<!-- ============================= -->
+<!-- NEWS SECTION -->
+<!-- ============================= -->
 
-            <div class="news-card">
+<section class="news-section">
 
-                <img
-                    src="https://images.unsplash.com/photo-1504711434969-e33886168f5c"
-                    alt="News"
-                >
+    <h2>📰 Latest News</h2>
 
-                <div class="news-content">
-
-                    <h3>আজকের সর্বশেষ খবর</h3>
-
-                    <p>
-                        এখানে আপনার নিউজের বিস্তারিত লেখা থাকবে।
-                        আপনি নিজের মতো করে এই লেখা পরিবর্তন করতে পারবেন।
-                    </p>
-
-                    <a href="#">
-                        Read More
-                    </a>
-
-                </div>
-
-            </div>
+    <div class="news-container">
 
 
-            <!-- NEWS 2 -->
+        <!-- NEWS 1 -->
 
-            <div class="news-card">
+        <div class="news-card">
 
-                <img
-                    src="https://images.unsplash.com/photo-1495020689067-958852a7765e"
-                    alt="News"
-                >
+            <img
+                src="https://images.unsplash.com/photo-1504711434969-e33886168f5c"
+                alt="News"
+            >
 
-                <div class="news-content">
+            <div class="news-content">
 
-                    <h3>আজকের গুরুত্বপূর্ণ সংবাদ</h3>
+                <h3>আজকের সর্বশেষ খবর</h3>
 
-                    <p>
-                        এখানে দ্বিতীয় নিউজের সংক্ষিপ্ত বিবরণ লিখুন।
-                    </p>
+                <p>
+                    এখানে আপনার নিউজের বিস্তারিত লেখা থাকবে।
+                    আপনি নিজের মতো করে এই লেখা পরিবর্তন করতে পারবেন।
+                </p>
 
-                    <a href="#">
-                        Read More
-                    </a>
-
-                </div>
-
-            </div>
-
-
-            <!-- NEWS 3 -->
-
-            <div class="news-card">
-
-                <img
-                    src="https://images.unsplash.com/photo-1585829365295-ab7cd400c167"
-                    alt="News"
-                >
-
-                <div class="news-content">
-
-                    <h3>সর্বশেষ আপডেট</h3>
-
-                    <p>
-                        আপনার নতুন খবর বা আপডেট এখানে প্রকাশ করতে পারবেন।
-                    </p>
-
-                    <a href="#">
-                        Read More
-                    </a>
-
-                </div>
+                <a href="#">
+                    Read More
+                </a>
 
             </div>
 
         </div>
 
-    </section>
+
+        <!-- NEWS 2 -->
+
+        <div class="news-card">
+
+            <img
+                src="https://images.unsplash.com/photo-1495020689067-958852a7765e"
+                alt="News"
+            >
+
+            <div class="news-content">
+
+                <h3>আজকের গুরুত্বপূর্ণ সংবাদ</h3>
+
+                <p>
+                    এখানে দ্বিতীয় নিউজের সংক্ষিপ্ত বিবরণ লিখুন।
+                </p>
+
+                <a href="#">
+                    Read More
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <!-- NEWS 3 -->
+
+        <div class="news-card">
+
+            <img
+                src="https://images.unsplash.com/photo-1585829365295-ab7cd400c167"
+                alt="News"
+            >
+
+            <div class="news-content">
+
+                <h3>সর্বশেষ আপডেট</h3>
+
+                <p>
+                    আপনার নতুন খবর বা আপডেট এখানে প্রকাশ করতে পারবেন।
+                </p>
+
+                <a href="#">
+                    Read More
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
 
 </div>
 
 
+<!-- ============================= -->
 <!-- FOOTER -->
+<!-- ============================= -->
 
 <footer>
 © 2026 My Live TV
 </footer>
 
 
+<!-- ============================= -->
+<!-- CHANNEL JAVASCRIPT -->
+<!-- ============================= -->
+
 <script>
 
 /* =========================================
-   YOUR CHANNELS
+   CHANNELS
 ========================================= */
 
 const channels = [
 
     {
-        name: "9X TSHAN",
+        name: "9X TASHAN",
         logo: "https://via.placeholder.com/100",
         url: "https://wiselp.wiseplayout.com/9X_Tashan/master.m3u8"
     },
@@ -409,25 +534,41 @@ const channels = [
     {
         name: "Channel 2",
         logo: "https://via.placeholder.com/100",
-        url: "https://YOUR-M3U8-LINK/channel2.m3u8"
+        url: "http://59.103.38.46:8000/play/a126/index.m3u8"
     },
 
     {
         name: "Live TV",
         logo: "https://via.placeholder.com/100",
-        url: "https://YOUR-M3U8-LINK/channel3.m3u8"
+        url: "https://cloudplay-sonyliv.pages.dev/ten5.m3u8"
     }
-
+   {
+        name: "MOVIES",
+        logo: "https://via.placeholder.com/100",
+        url: "https://iptv-org.github.io/iptv/categories/movies.m3u"
+    }
 ];
 
 
-const video = document.getElementById("video");
-const channelBox = document.getElementById("channels");
-const nowPlaying = document.getElementById("nowPlaying");
-const loading = document.getElementById("loading");
-const search = document.getElementById("search");
+/* =========================================
+   ELEMENTS
+========================================= */
 
-let hls;
+const video = document.getElementById("video");
+
+const channelBox =
+    document.getElementById("channels");
+
+const nowPlaying =
+    document.getElementById("nowPlaying");
+
+const loading =
+    document.getElementById("loading");
+
+const search =
+    document.getElementById("search");
+
+let hls = null;
 
 
 /* =========================================
@@ -436,40 +577,79 @@ let hls;
 
 function playChannel(channel, element) {
 
-    nowPlaying.innerText = "🔴 LIVE — " + channel.name;
+    nowPlaying.innerText =
+        "🔴 LIVE — " + channel.name;
+
 
     document.querySelectorAll(".channel")
-        .forEach(el => el.classList.remove("active"));
+        .forEach(el => {
+
+            el.classList.remove("active");
+
+        });
+
 
     if (element) {
+
         element.classList.add("active");
+
     }
+
 
     loading.style.display = "block";
 
 
+    /* Destroy old HLS */
+
     if (hls) {
+
         hls.destroy();
+
         hls = null;
+
     }
 
 
-    /* Safari */
+    /* Clear old video */
 
-    if (video.canPlayType("application/vnd.apple.mpegurl")) {
+    video.pause();
+
+    video.removeAttribute("src");
+
+    video.load();
+
+
+    /* ============================= */
+    /* Safari / Native HLS */
+    /* ============================= */
+
+    if (
+        video.canPlayType(
+            "application/vnd.apple.mpegurl"
+        )
+    ) {
 
         video.src = channel.url;
 
+
         video.play()
             .then(() => {
+
                 loading.style.display = "none";
+
             })
-            .catch(() => {});
+            .catch(() => {
+
+                loading.style.display = "none";
+
+            });
 
     }
 
 
+    /* ============================= */
     /* Chrome / Edge / Firefox */
+    /* ============================= */
 
     else if (Hls.isSupported()) {
 
@@ -486,6 +666,7 @@ function playChannel(channel, element) {
 
         hls.loadSource(channel.url);
 
+
         hls.attachMedia(video);
 
 
@@ -495,7 +676,8 @@ function playChannel(channel, element) {
 
                 loading.style.display = "none";
 
-                video.play().catch(() => {});
+                video.play()
+                    .catch(() => {});
 
             }
         );
@@ -505,7 +687,11 @@ function playChannel(channel, element) {
             Hls.Events.ERROR,
             function (event, data) {
 
-                console.log("HLS ERROR:", data);
+                console.log(
+                    "HLS ERROR:",
+                    data
+                );
+
 
                 if (data.fatal) {
 
@@ -520,6 +706,7 @@ function playChannel(channel, element) {
         );
 
     }
+
 
     else {
 
@@ -543,9 +730,21 @@ function showChannels(list) {
     channelBox.innerHTML = "";
 
 
+    if (list.length === 0) {
+
+        channelBox.innerHTML =
+            "<p>No channel found.</p>";
+
+        return;
+
+    }
+
+
     list.forEach(channel => {
 
-        const div = document.createElement("div");
+        const div =
+            document.createElement("div");
+
 
         div.className = "channel";
 
@@ -556,6 +755,7 @@ function showChannels(list) {
                 class="logo"
                 src="${channel.logo}"
                 onerror="this.style.display='none'"
+                alt="${channel.name}"
             >
 
             <div>
@@ -567,7 +767,10 @@ function showChannels(list) {
 
         div.onclick = function () {
 
-            playChannel(channel, div);
+            playChannel(
+                channel,
+                div
+            );
 
         };
 
@@ -588,7 +791,9 @@ search.addEventListener(
     function () {
 
         const keyword =
-            search.value.toLowerCase();
+            search.value
+                .toLowerCase()
+                .trim();
 
 
         const filtered =
@@ -614,6 +819,7 @@ search.addEventListener(
 showChannels(channels);
 
 </script>
+
 
 </body>
 </html>
