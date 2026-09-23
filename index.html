@@ -361,6 +361,7 @@ footer{
 
     </div>
 
+
     <!-- CHANNELS -->
 
     <div class="section-title">
@@ -448,7 +449,7 @@ footer{
 </footer>
 
 
-<!-- YOUR EXISTING AD SCRIPT -->
+<!-- EXISTING AD SCRIPT -->
 
 <script src="https://pl29675353.profitableratecpmnetwork.com/b9/61/b1/b961b1a6b93a047001b62b37baa7364b.js"></script>
 
@@ -528,11 +529,20 @@ const channels = [
    PLAYER
 ===================================================== */
 
-const video = document.getElementById("video");
-const loading = document.getElementById("loading");
-const nowPlaying = document.getElementById("nowPlaying");
-const channelsContainer = document.getElementById("channels");
-const searchInput = document.getElementById("search");
+const video =
+    document.getElementById("video");
+
+const loading =
+    document.getElementById("loading");
+
+const nowPlaying =
+    document.getElementById("nowPlaying");
+
+const channelsContainer =
+    document.getElementById("channels");
+
+const searchInput =
+    document.getElementById("search");
 
 let hls = null;
 
@@ -544,6 +554,7 @@ function playChannel(channel){
     nowPlaying.textContent =
         "▶ " + channel.name;
 
+
     if(hls){
 
         hls.destroy();
@@ -551,8 +562,11 @@ function playChannel(channel){
 
     }
 
+
     video.pause();
+
     video.removeAttribute("src");
+
     video.load();
 
 
@@ -567,11 +581,13 @@ function playChannel(channel){
 
         hls.attachMedia(video);
 
+
         hls.on(
             Hls.Events.MANIFEST_PARSED,
             function(){
 
-                loading.style.display = "none";
+                loading.style.display =
+                    "none";
 
                 video.play().catch(
                     function(){}
@@ -580,16 +596,15 @@ function playChannel(channel){
             }
         );
 
+
         hls.on(
             Hls.Events.ERROR,
-            function(
-                event,
-                data
-            ){
+            function(event,data){
 
                 if(data.fatal){
 
-                    loading.style.display = "none";
+                    loading.style.display =
+                        "none";
 
                     nowPlaying.textContent =
                         "❌ Unable to play " +
@@ -608,13 +623,16 @@ function playChannel(channel){
         )
     ){
 
-        video.src = channel.url;
+        video.src =
+            channel.url;
+
 
         video.addEventListener(
             "loadedmetadata",
             function(){
 
-                loading.style.display = "none";
+                loading.style.display =
+                    "none";
 
                 video.play().catch(
                     function(){}
@@ -630,7 +648,8 @@ function playChannel(channel){
 
     else{
 
-        loading.style.display = "none";
+        loading.style.display =
+            "none";
 
         nowPlaying.textContent =
             "❌ HLS is not supported";
@@ -647,6 +666,7 @@ function playChannel(channel){
 function showChannels(list){
 
     channelsContainer.innerHTML = "";
+
 
     if(list.length === 0){
 
@@ -751,13 +771,13 @@ const freeMovies = [
         title: "The General",
         year: "1926",
         date: "1926",
-        genre: [
+        genre:[
             "Comedy",
             "Silent",
             "Classic"
         ],
-        runtime: "1h 15m",
-        rating: "⭐ Public Domain",
+        runtime:"1h 15m",
+        rating:"⭐ Public Domain",
 
         poster:
         "https://commons.wikimedia.org/wiki/Special:Redirect/file/The_General_(1926)_-_Movie_Poster.png",
@@ -774,16 +794,16 @@ const freeMovies = [
 
 
     {
-        title: "Captain Kidd",
-        year: "1945",
-        date: "1945",
-        genre: [
+        title:"Captain Kidd",
+        year:"1945",
+        date:"1945",
+        genre:[
             "Adventure",
             "Drama",
             "Classic"
         ],
-        runtime: "1h 28m",
-        rating: "⭐ Public Domain",
+        runtime:"1h 28m",
+        rating:"⭐ Public Domain",
 
         poster:
         "https://commons.wikimedia.org/wiki/Special:Redirect/file/Captain_Kidd_(1945).jpg",
@@ -800,16 +820,16 @@ const freeMovies = [
 
 
     {
-        title: "জামাই বাবু",
-        year: "1931",
-        date: "1931",
-        genre: [
+        title:"জামাই বাবু",
+        year:"1931",
+        date:"1931",
+        genre:[
             "Bangla",
             "Comedy",
             "Silent"
         ],
-        runtime: "22m",
-        rating: "⭐ Public Domain",
+        runtime:"22m",
+        rating:"⭐ Public Domain",
 
         poster:
         "https://via.placeholder.com/500x750/171717/ffffff?text=Jamai+Babu",
@@ -826,16 +846,16 @@ const freeMovies = [
 
 
     {
-        title: "চণ্ডীদাস",
-        year: "1932",
-        date: "1932",
-        genre: [
+        title:"চণ্ডীদাস",
+        year:"1932",
+        date:"1932",
+        genre:[
             "Bangla",
             "Drama",
             "Classic"
         ],
-        runtime: "Classic film",
-        rating: "⭐ Public Domain",
+        runtime:"Classic film",
+        rating:"⭐ Public Domain",
 
         poster:
         "https://via.placeholder.com/500x750/171717/ffffff?text=Chandidas",
@@ -852,16 +872,16 @@ const freeMovies = [
 
 
     {
-        title: "কৃষ্ণকান্তের উইল",
-        year: "1932",
-        date: "1932",
-        genre: [
+        title:"কৃষ্ণকান্তের উইল",
+        year:"1932",
+        date:"1932",
+        genre:[
             "Bangla",
             "Drama",
             "Classic"
         ],
-        runtime: "1h 12m",
-        rating: "⭐ Public Domain",
+        runtime:"1h 12m",
+        rating:"⭐ Public Domain",
 
         poster:
         "https://via.placeholder.com/500x750/171717/ffffff?text=Krishnakanter+Will",
@@ -878,16 +898,16 @@ const freeMovies = [
 
 
     {
-        title: "মুক্তি",
-        year: "1937",
-        date: "1937",
-        genre: [
+        title:"মুক্তি",
+        year:"1937",
+        date:"1937",
+        genre:[
             "Bangla",
             "Drama",
             "Classic"
         ],
-        runtime: "1h 55m",
-        rating: "⭐ Public Domain",
+        runtime:"1h 55m",
+        rating:"⭐ Public Domain",
 
         poster:
         "https://via.placeholder.com/500x750/171717/ffffff?text=Mukti",
@@ -904,16 +924,16 @@ const freeMovies = [
 
 
     {
-        title: "বিদ্যাপতি",
-        year: "1937",
-        date: "1937",
-        genre: [
+        title:"বিদ্যাপতি",
+        year:"1937",
+        date:"1937",
+        genre:[
             "Bangla",
             "Drama",
             "Classic"
         ],
-        runtime: "59m",
-        rating: "⭐ Public Domain",
+        runtime:"59m",
+        rating:"⭐ Public Domain",
 
         poster:
         "https://via.placeholder.com/500x750/171717/ffffff?text=Bidyapati",
@@ -930,16 +950,16 @@ const freeMovies = [
 
 
     {
-        title: "জীবন মরণ",
-        year: "1938",
-        date: "1938",
-        genre: [
+        title:"জীবন মরণ",
+        year:"1938",
+        date:"1938",
+        genre:[
             "Bangla",
             "Drama",
             "Classic"
         ],
-        runtime: "1h 48m",
-        rating: "⭐ Public Domain",
+        runtime:"1h 48m",
+        rating:"⭐ Public Domain",
 
         poster:
         "https://via.placeholder.com/500x750/171717/ffffff?text=Jiban+Maran",
@@ -956,16 +976,16 @@ const freeMovies = [
 
 
     {
-        title: "রজত জয়ন্তী",
-        year: "1939",
-        date: "1939",
-        genre: [
+        title:"রজত জয়ন্তী",
+        year:"1939",
+        date:"1939",
+        genre:[
             "Bangla",
             "Drama",
             "Classic"
         ],
-        runtime: "2h 04m",
-        rating: "⭐ Public Domain",
+        runtime:"2h 04m",
+        rating:"⭐ Public Domain",
 
         poster:
         "https://via.placeholder.com/500x750/171717/ffffff?text=Rajat+Jayanti",
@@ -982,16 +1002,16 @@ const freeMovies = [
 
 
     {
-        title: "ডাক্তার",
-        year: "1940",
-        date: "1940",
-        genre: [
+        title:"ডাক্তার",
+        year:"1940",
+        date:"1940",
+        genre:[
             "Bangla",
             "Drama",
             "Classic"
         ],
-        runtime: "Classic film",
-        rating: "⭐ Public Domain",
+        runtime:"Classic film",
+        rating:"⭐ Public Domain",
 
         poster:
         "https://via.placeholder.com/500x750/171717/ffffff?text=Daktar",
@@ -1008,16 +1028,16 @@ const freeMovies = [
 
 
     {
-        title: "অবতার",
-        year: "1941",
-        date: "1941",
-        genre: [
+        title:"অবতার",
+        year:"1941",
+        date:"1941",
+        genre:[
             "Bangla",
             "Drama",
             "Classic"
         ],
-        runtime: "1h 53m",
-        rating: "⭐ Public Domain",
+        runtime:"1h 53m",
+        rating:"⭐ Public Domain",
 
         poster:
         "https://via.placeholder.com/500x750/171717/ffffff?text=Avatar",
@@ -1034,16 +1054,16 @@ const freeMovies = [
 
 
     {
-        title: "শ্রীরাধা",
-        year: "1941",
-        date: "1941",
-        genre: [
+        title:"শ্রীরাধা",
+        year:"1941",
+        date:"1941",
+        genre:[
             "Bangla",
             "Drama",
             "Classic"
         ],
-        runtime: "Classic film",
-        rating: "⭐ Public Domain",
+        runtime:"Classic film",
+        rating:"⭐ Public Domain",
 
         poster:
         "https://via.placeholder.com/500x750/171717/ffffff?text=Shri+Radha",
@@ -1060,16 +1080,16 @@ const freeMovies = [
 
 
     {
-        title: "ঠিকাদার",
-        year: "1940",
-        date: "1940",
-        genre: [
+        title:"ঠিকাদার",
+        year:"1940",
+        date:"1940",
+        genre:[
             "Bangla",
             "Drama",
             "Classic"
         ],
-        runtime: "2h 21m",
-        rating: "⭐ Public Domain",
+        runtime:"2h 21m",
+        rating:"⭐ Public Domain",
 
         poster:
         "https://via.placeholder.com/500x750/171717/ffffff?text=Thikadar",
@@ -1086,16 +1106,16 @@ const freeMovies = [
 
 
     {
-        title: "গৃহলক্ষ্মী",
-        year: "1945",
-        date: "1945",
-        genre: [
+        title:"গৃহলক্ষ্মী",
+        year:"1945",
+        date:"1945",
+        genre:[
             "Bangla",
             "Drama",
             "Classic"
         ],
-        runtime: "Classic film",
-        rating: "⭐ Public Domain",
+        runtime:"Classic film",
+        rating:"⭐ Public Domain",
 
         poster:
         "https://via.placeholder.com/500x750/171717/ffffff?text=Grihalakshmi",
@@ -1161,7 +1181,6 @@ function showMovies(list){
             '<div style="color:#aaa;">No movie found.</div>';
 
         return;
-
     }
 
 
@@ -1366,7 +1385,8 @@ function openMovie(movie){
         </p>
 
         <p>
-            🎬 Genre: ${movie.genre.join(", ")}
+            🎬 Genre:
+            ${movie.genre.join(", ")}
         </p>
 
         <p>
