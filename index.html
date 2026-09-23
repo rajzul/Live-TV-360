@@ -9,300 +9,207 @@
 <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
 
 <style>
-
 *{
     box-sizing:border-box;
 }
 
 body{
     margin:0;
-    font-family:Arial,Helvetica,sans-serif;
-    background:#080808;
+    background:#050505;
     color:#fff;
+    font-family:Arial,Helvetica,sans-serif;
 }
 
-/* ================= HEADER ================= */
-
 header{
-    background:linear-gradient(90deg,#090909,#151515,#090909);
-    padding:18px 15px;
+    background:linear-gradient(135deg,#111,#222);
+    padding:18px;
     text-align:center;
     font-size:25px;
     font-weight:bold;
-    border-bottom:1px solid #292929;
+    position:sticky;
+    top:0;
+    z-index:1000;
+    border-bottom:1px solid #333;
 }
-
-/* ================= MAIN ================= */
 
 .container{
-    width:95%;
-    max-width:1250px;
+    max-width:1200px;
     margin:auto;
+    padding:15px;
 }
 
-/* ================= TV PLAYER ================= */
+.section-title{
+    font-size:24px;
+    margin:20px 0 15px;
+    font-weight:bold;
+}
+
+.search-box{
+    width:100%;
+    padding:14px;
+    border-radius:10px;
+    border:1px solid #333;
+    background:#111;
+    color:white;
+    font-size:16px;
+    outline:none;
+    margin-bottom:18px;
+}
+
+.search-box:focus{
+    border-color:#777;
+}
 
 .player-box{
-    margin-top:20px;
     background:#000;
-    border-radius:14px;
+    border-radius:12px;
     overflow:hidden;
+    border:1px solid #222;
     position:relative;
-    box-shadow:0 8px 35px rgba(0,0,0,.45);
+    margin-bottom:20px;
 }
 
-#video{
+video{
     width:100%;
-    display:block;
+    max-height:600px;
     background:#000;
-    aspect-ratio:16/9;
+    display:block;
 }
 
 .loading{
     position:absolute;
-    top:45%;
     left:50%;
+    top:50%;
     transform:translate(-50%,-50%);
     background:rgba(0,0,0,.8);
-    padding:12px 20px;
+    padding:12px 18px;
     border-radius:8px;
     display:none;
     z-index:5;
 }
 
 .now-playing{
-    padding:13px;
-    background:#151515;
-    font-weight:bold;
-    font-size:15px;
-}
-
-/* ================= SEARCH ================= */
-
-.search-box{
-    margin:20px 0;
-}
-
-.search-box input,
-.movie-search input{
-    width:100%;
-    padding:15px 17px;
-    border:1px solid #292929;
-    outline:none;
-    border-radius:9px;
-    background:#161616;
-    color:white;
+    padding:12px;
+    background:#111;
     font-size:16px;
+    font-weight:bold;
 }
 
-.search-box input:focus,
-.movie-search input:focus{
-    border-color:#e50914;
-}
-
-/* ================= SECTION ================= */
-
-.section-title{
-    margin-top:32px;
-    margin-bottom:17px;
-    font-size:23px;
-}
-
-/* ================= CHANNELS ================= */
-
-.channels{
+.channels-grid{
     display:grid;
-    grid-template-columns:
-        repeat(auto-fill,minmax(150px,1fr));
+    grid-template-columns:repeat(auto-fill,minmax(170px,1fr));
     gap:15px;
 }
 
-.channel{
-    background:#151515;
-    border:1px solid #282828;
-    border-radius:11px;
-    padding:13px;
-    text-align:center;
+.channel-card{
+    background:#111;
+    border:1px solid #292929;
+    border-radius:12px;
+    padding:12px;
     cursor:pointer;
     transition:.2s;
+    text-align:center;
 }
 
-.channel:hover{
-    transform:translateY(-4px);
-    background:#202020;
-    border-color:#444;
+.channel-card:hover{
+    transform:translateY(-3px);
+    border-color:#666;
+    background:#181818;
 }
 
-.channel img{
-    width:82px;
-    height:82px;
+.channel-logo{
+    width:100%;
+    height:100px;
     object-fit:contain;
+    background:#050505;
     border-radius:8px;
-    margin-bottom:8px;
+    margin-bottom:10px;
 }
 
 .channel-name{
     font-weight:bold;
-    font-size:14px;
+    font-size:15px;
 }
 
-/* ================================================= */
-/* ================= MOVIE SECTION ================= */
-/* ================================================= */
+/* MOVIES */
 
 .movie-section{
-    margin-top:50px;
-    padding-bottom:50px;
+    margin-top:35px;
 }
 
-.movie-heading{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    gap:15px;
-    flex-wrap:wrap;
-}
-
-.movie-heading h2{
-    margin:0;
-    font-size:25px;
-}
-
-.movie-heading span{
-    color:#999;
-    font-size:13px;
-}
-
-.movie-search{
-    margin:20px 0;
-}
-
-.movie-status{
-    color:#999;
-    margin-bottom:18px;
-    font-size:14px;
-}
-
-/* ================= MOVIE GRID ================= */
-
-.movies{
+.movie-grid{
     display:grid;
-    grid-template-columns:
-        repeat(auto-fill,minmax(210px,1fr));
-    gap:20px;
+    grid-template-columns:repeat(auto-fill,minmax(180px,1fr));
+    gap:18px;
 }
-
-/* ================= MOVIE CARD ================= */
 
 .movie-card{
-    background:#141414;
-    border:1px solid #252525;
-    border-radius:13px;
+    background:#111;
+    border:1px solid #292929;
+    border-radius:12px;
     overflow:hidden;
-    transition:.25s;
-    position:relative;
+    transition:.2s;
 }
 
 .movie-card:hover{
-    transform:translateY(-6px);
-    border-color:#444;
-    box-shadow:
-        0 12px 35px rgba(0,0,0,.45);
-}
-
-.movie-poster-box{
-    position:relative;
-    background:#222;
-    overflow:hidden;
+    transform:translateY(-4px);
+    border-color:#666;
 }
 
 .movie-poster{
     width:100%;
-    height:300px;
+    height:270px;
     object-fit:cover;
+    background:#191919;
     display:block;
-    transition:.3s;
-}
-
-.movie-card:hover .movie-poster{
-    transform:scale(1.03);
-}
-
-.movie-badge{
-    position:absolute;
-    top:10px;
-    left:10px;
-    background:#e50914;
-    color:white;
-    padding:6px 9px;
-    border-radius:6px;
-    font-size:11px;
-    font-weight:bold;
 }
 
 .movie-info{
-    padding:14px;
+    padding:12px;
 }
 
 .movie-title{
-    font-size:18px;
+    font-size:17px;
     font-weight:bold;
-    line-height:1.3;
-    margin-bottom:7px;
+    margin-bottom:8px;
 }
 
 .movie-meta{
-    color:#aaa;
     font-size:13px;
-    margin-bottom:9px;
-}
-
-.movie-tags{
-    display:flex;
-    gap:6px;
-    flex-wrap:wrap;
-    margin-bottom:10px;
-}
-
-.movie-tag{
-    background:#292929;
-    color:#ccc;
-    padding:4px 7px;
-    border-radius:5px;
-    font-size:11px;
+    color:#bbb;
+    margin-bottom:7px;
 }
 
 .movie-description{
-    color:#bdbdbd;
+    color:#aaa;
     font-size:13px;
-    line-height:1.5;
-    min-height:58px;
+    line-height:1.4;
+    min-height:55px;
 }
 
 .movie-buttons{
     display:flex;
     flex-direction:column;
     gap:8px;
-    margin-top:13px;
+    margin-top:12px;
 }
 
 .watch-btn,
 .source-btn{
-    border:none;
-    padding:11px;
-    border-radius:7px;
+    border:0;
+    border-radius:8px;
+    padding:10px;
     cursor:pointer;
     font-weight:bold;
-    font-size:13px;
 }
 
 .watch-btn{
     background:#e50914;
-    color:white;
+    color:#fff;
 }
 
 .watch-btn:hover{
-    background:#ff1722;
+    background:#ff1824;
 }
 
 .source-btn{
@@ -311,31 +218,55 @@ header{
 }
 
 .source-btn:hover{
-    background:#383838;
+    background:#3a3a3a;
 }
 
-/* ================= MOVIE MODAL ================= */
+.movie-status{
+    color:#aaa;
+    margin-bottom:15px;
+}
+
+/* MODAL */
 
 .movie-modal{
+    display:none;
     position:fixed;
     inset:0;
-    background:rgba(0,0,0,.94);
-    display:none;
-    align-items:center;
-    justify-content:center;
-    z-index:99999;
+    background:rgba(0,0,0,.9);
+    z-index:2000;
+    padding:20px;
+    overflow:auto;
+}
+
+.movie-modal-content{
+    max-width:1000px;
+    margin:30px auto;
+    background:#111;
+    border:1px solid #333;
+    border-radius:14px;
+    overflow:hidden;
+    position:relative;
+}
+
+.movie-modal-video{
+    width:100%;
+    max-height:650px;
+    background:#000;
+}
+
+.movie-modal-info{
     padding:18px;
 }
 
-.movie-modal-box{
-    width:100%;
-    max-width:1100px;
-    background:#111;
-    border:1px solid #292929;
-    border-radius:13px;
-    overflow:hidden;
-    position:relative;
-    box-shadow:0 20px 80px rgba(0,0,0,.8);
+.movie-modal-title{
+    font-size:25px;
+    font-weight:bold;
+    margin-bottom:10px;
+}
+
+.movie-modal-description{
+    color:#bbb;
+    line-height:1.6;
 }
 
 .movie-close{
@@ -344,95 +275,55 @@ header{
     top:12px;
     width:40px;
     height:40px;
-    border:none;
+    border:0;
     border-radius:50%;
-    background:rgba(0,0,0,.85);
-    color:white;
-    font-size:21px;
+    background:rgba(0,0,0,.8);
+    color:#fff;
+    font-size:22px;
     cursor:pointer;
     z-index:10;
 }
 
-.movie-close:hover{
-    background:#e50914;
+.badge{
+    display:inline-block;
+    padding:5px 8px;
+    border-radius:6px;
+    background:#222;
+    color:#ddd;
+    font-size:12px;
+    margin:3px 3px 3px 0;
 }
-
-.movie-video{
-    width:100%;
-    max-height:75vh;
-    display:block;
-    background:#000;
-}
-
-.movie-modal-info{
-    padding:17px;
-}
-
-.movie-modal-info h2{
-    margin:0 0 8px;
-    font-size:22px;
-}
-
-.movie-modal-info p{
-    margin:0;
-    color:#aaa;
-    line-height:1.5;
-}
-
-/* ================= EMPTY ================= */
-
-.no-movie{
-    padding:30px;
-    background:#141414;
-    border-radius:10px;
-    text-align:center;
-    color:#888;
-}
-
-/* ================= FOOTER ================= */
 
 footer{
     text-align:center;
-    color:#666;
-    padding:30px 10px;
+    color:#777;
+    padding:30px 15px;
+    margin-top:30px;
     border-top:1px solid #222;
-    margin-top:20px;
 }
 
-/* ================= MOBILE ================= */
-
-@media(max-width:700px){
+@media(max-width:600px){
 
     header{
         font-size:21px;
     }
 
-    .channels{
+    .channels-grid{
         grid-template-columns:repeat(2,1fr);
         gap:10px;
     }
 
-    .channel{
-        padding:10px;
+    .movie-grid{
+        grid-template-columns:repeat(2,1fr);
+        gap:10px;
     }
 
-    .channel img{
-        width:65px;
-        height:65px;
-    }
-
-    .movies{
-        grid-template-columns:
-            repeat(2,minmax(0,1fr));
-        gap:11px;
+    .channel-logo{
+        height:85px;
     }
 
     .movie-poster{
         height:230px;
-    }
-
-    .movie-info{
-        padding:10px;
     }
 
     .movie-title{
@@ -440,25 +331,11 @@ footer{
     }
 
     .movie-description{
-        font-size:11px;
-        min-height:65px;
+        font-size:12px;
     }
-
-    .movie-meta{
-        font-size:11px;
-    }
-
-    .watch-btn,
-    .source-btn{
-        padding:9px 5px;
-        font-size:11px;
-    }
-
 }
-
 </style>
 </head>
-
 
 <body>
 
@@ -466,144 +343,98 @@ footer{
     📺 MY LIVE TV
 </header>
 
-
 <div class="container">
 
-    <!-- ================================================= -->
-    <!-- ================= TV PLAYER ===================== -->
-    <!-- ================================================= -->
+    <!-- PLAYER -->
 
     <div class="player-box">
 
-        <video
-            id="video"
-            controls
-            playsinline>
-        </video>
+        <video id="video" controls playsinline></video>
 
-        <div
-            id="loading"
-            class="loading">
+        <div id="loading" class="loading">
             ⏳ Loading...
         </div>
 
-        <div
-            id="nowPlaying"
-            class="now-playing">
+        <div id="nowPlaying" class="now-playing">
             Select a channel
         </div>
 
     </div>
 
+    <!-- CHANNELS -->
 
-    <!-- ================================================= -->
-    <!-- ================= TV SEARCH ===================== -->
-    <!-- ================================================= -->
+    <div class="section-title">
+        📡 Live TV Channels
+    </div>
 
-    <div class="search-box">
+    <input
+        id="search"
+        class="search-box"
+        type="text"
+        placeholder="🔎 Search channel..."
+    >
+
+    <div id="channels" class="channels-grid"></div>
+
+
+    <!-- MOVIES -->
+
+    <div class="movie-section">
+
+        <div class="section-title">
+            🎬 Free Full Movies
+        </div>
 
         <input
+            id="movieSearch"
+            class="search-box"
             type="text"
-            id="search"
-            placeholder="🔎 Search TV channel...">
+            placeholder="🔎 Search movie..."
+        >
 
-    </div>
-
-
-    <!-- ================================================= -->
-    <!-- ================= TV CHANNELS =================== -->
-    <!-- ================================================= -->
-
-    <h2 class="section-title">
-        📺 Live TV Channels
-    </h2>
-
-    <div
-        id="channels"
-        class="channels">
-    </div>
-
-
-    <!-- ================================================= -->
-    <!-- ================= MOVIE SECTION ================= -->
-    <!-- ================================================= -->
-
-    <section class="movie-section">
-
-        <div class="movie-heading">
-
-            <h2>
-                🎬 Free Full Movies
-            </h2>
-
-            <span>
-                Public-domain / reusable sources
-            </span>
-
-        </div>
-
-
-        <div class="movie-search">
-
-            <input
-                type="text"
-                id="movieSearch"
-                placeholder="🔎 Search movie, year, genre...">
-
-        </div>
-
-
-        <div
-            id="movieStatus"
-            class="movie-status">
+        <div id="movieStatus" class="movie-status">
             Loading movies...
         </div>
 
+        <div id="movieContainer" class="movie-grid"></div>
 
-        <div
-            id="movieContainer"
-            class="movies">
-        </div>
-
-    </section>
+    </div>
 
 </div>
 
 
-<!-- ================================================= -->
-<!-- ================= MOVIE MODAL ==================== -->
-<!-- ================================================= -->
+<!-- MOVIE MODAL -->
 
-<div
-    id="movieModal"
-    class="movie-modal">
+<div id="movieModal" class="movie-modal">
 
-    <div class="movie-modal-box">
+    <div class="movie-modal-content">
 
         <button
             id="movieClose"
-            class="movie-close">
+            class="movie-close"
+            type="button"
+        >
             ✕
         </button>
 
-
         <video
             id="movieVideo"
-            class="movie-video"
+            class="movie-modal-video"
             controls
-            playsinline>
-        </video>
-
+            playsinline
+        ></video>
 
         <div class="movie-modal-info">
 
-            <h2 id="movieModalTitle">
-                Movie
-            </h2>
+            <div
+                id="movieModalTitle"
+                class="movie-modal-title"
+            ></div>
 
-            <p id="movieModalDescription">
-                Loading...
-            </p>
+            <div
+                id="movieModalDescription"
+                class="movie-modal-description"
+            ></div>
 
         </div>
 
@@ -617,99 +448,91 @@ footer{
 </footer>
 
 
-<!-- ================================================= -->
-<!-- ================= AD SCRIPT ====================== -->
-<!-- ================================================= -->
+<!-- YOUR EXISTING AD SCRIPT -->
 
 <script src="https://pl29675353.profitableratecpmnetwork.com/b9/61/b1/b961b1a6b93a047001b62b37baa7364b.js"></script>
 
 
-<!-- ================================================= -->
-<!-- ================= TV JAVASCRIPT ================== -->
-<!-- ================================================= -->
-
 <script>
+
+/* =====================================================
+   LIVE TV CHANNELS
+===================================================== */
 
 const channels = [
 
     {
-        name:"9X TASHAN",
-        logo:"https://xstreamcp-assets-msp.streamready.in/assets/LIVETV/LIVECHANNEL/LIVETV_LIVETVCHANNEL_9X_TASHAN/images/LOGO_HD/image.png",
-        url:"https://wiselp.wiseplayout.com/9X_Tashan/master.m3u8"
+        name: "9X TASHAN",
+        logo: "https://xstreamcp-assets-msp.streamready.in/assets/LIVETV/LIVECHANNEL/LIVETV_LIVETVCHANNEL_9X_TASHAN/images/LOGO_HD/image.png",
+        url: "https://wiselp.wiseplayout.com/9X_Tashan/master.m3u8"
     },
 
     {
-        name:"DEEPTO TV",
-        logo:"https://www.freekaj.com/image/deepto-tv-logo/117",
-        url:"https://byphdgllyk.gpcdn.net/hls/deeptotv/0_1/index.m3u8"
+        name: "DEEPTO TV",
+        logo: "https://via.placeholder.com/200x120/111111/ffffff?text=DEEPTO+TV",
+        url: "https://byphdgllyk.gpcdn.net/hls/deeptotv/0_1/index.m3u8"
     },
 
     {
-        name:"ENTER10 BANGLA",
-        logo:"https://commons.wikimedia.org/wiki/Special:Redirect/file/Enterr10_LOGO-.png",
-        url:"https://live-bangla.akamaized.net/liveabr/pub-iobanglakp3sff/live_240p/chunks.m3u8"
+        name: "ENTER10 BANGLA",
+        logo: "https://raw.githubusercontent.com/subirkumarpaul/Logo/main/Enter%2010%20Bangla.jpeg",
+        url: "https://live-bangla.akamaized.net/liveabr/pub-iobanglakp3sff/live_240p/chunks.m3u8"
     },
 
     {
-        name:"MUSIC",
-        logo:"https://via.placeholder.com/100?text=MUSIC",
-        url:"https://albportal.net/albkanalemusic.m3u8"
+        name: "MUSIC",
+        logo: "https://via.placeholder.com/200x120/111111/ffffff?text=MUSIC",
+        url: "https://albportal.net/albkanalemusic.m3u8"
     },
 
     {
-        name:"FOOTBALL",
-        logo:"https://via.placeholder.com/100?text=FOOTBALL",
-        url:"http://88.212.15.19/live/test_ctsport_25p/playlist.m3u8"
+        name: "FOOTBALL",
+        logo: "https://via.placeholder.com/200x120/111111/ffffff?text=FOOTBALL",
+        url: "http://88.212.15.19/live/test_ctsport_25p/playlist.m3u8"
     },
 
     {
-        name:"CINEMA",
-        logo:"https://via.placeholder.com/100?text=CINEMA",
-        url:"http://stream.mcquack.net/258/index.m3u8"
+        name: "CINEMA",
+        logo: "https://via.placeholder.com/200x120/111111/ffffff?text=CINEMA",
+        url: "http://stream.mcquack.net/258/index.m3u8"
     },
 
     {
-        name:"MOVIES-1",
-        logo:"https://via.placeholder.com/100?text=MOVIES-1",
-        url:"https://d1j2u714xk898n.cloudfront.net/scheduler/scheduleMaster/145.m3u8"
+        name: "MOVIES-1",
+        logo: "https://via.placeholder.com/200x120/111111/ffffff?text=MOVIES-1",
+        url: "https://d1j2u714xk898n.cloudfront.net/scheduler/scheduleMaster/145.m3u8"
     },
 
     {
-        name:"MOVIES-2",
-        logo:"https://via.placeholder.com/100?text=MOVIES-2",
-        url:"https://afrafhls.wns.live/hls/stream.m3u8"
+        name: "MOVIES-2",
+        logo: "https://via.placeholder.com/200x120/111111/ffffff?text=MOVIES-2",
+        url: "https://afrafhls.wns.live/hls/stream.m3u8"
     },
 
     {
-        name:"BHUJPURI CINEMA",
-        logo:"https://commons.wikimedia.org/wiki/Special:Redirect/file/Bhojpuri_Cinema_logo.png",
-        url:"https://live-bhojpuri.akamaized.net/liveabr/playlist.m3u8"
+        name: "BHUJPURI CINEMA",
+        logo: "https://commons.wikimedia.org/wiki/Special:Redirect/file/Bhojpuri_Cinema_logo.png",
+        url: "https://live-bhojpuri.akamaized.net/liveabr/playlist.m3u8"
     },
 
     {
-        name:"MOVIES-3",
-        logo:"https://via.placeholder.com/100?text=MOVIES-3",
-        url:"https://live.presstv.ir/hls/ifilmen.m3u8"
+        name: "MOVIES-3",
+        logo: "https://commons.wikimedia.org/wiki/Special:Redirect/file/IFILM.png",
+        url: "https://live.presstv.ir/hls/ifilmen.m3u8"
     }
 
 ];
 
 
-const video =
-    document.getElementById("video");
+/* =====================================================
+   PLAYER
+===================================================== */
 
-const loading =
-    document.getElementById("loading");
-
-const nowPlaying =
-    document.getElementById("nowPlaying");
-
-const channelsContainer =
-    document.getElementById("channels");
-
-const searchInput =
-    document.getElementById("search");
-
+const video = document.getElementById("video");
+const loading = document.getElementById("loading");
+const nowPlaying = document.getElementById("nowPlaying");
+const channelsContainer = document.getElementById("channels");
+const searchInput = document.getElementById("search");
 
 let hls = null;
 
@@ -719,26 +542,30 @@ function playChannel(channel){
     loading.style.display = "block";
 
     nowPlaying.textContent =
-        "▶️ " + channel.name;
-
+        "▶ " + channel.name;
 
     if(hls){
 
         hls.destroy();
-
         hls = null;
 
     }
 
+    video.pause();
+    video.removeAttribute("src");
+    video.load();
 
-    if(Hls.isSupported()){
+
+    if(
+        window.Hls &&
+        Hls.isSupported()
+    ){
 
         hls = new Hls();
 
         hls.loadSource(channel.url);
 
         hls.attachMedia(video);
-
 
         hls.on(
             Hls.Events.MANIFEST_PARSED,
@@ -747,16 +574,18 @@ function playChannel(channel){
                 loading.style.display = "none";
 
                 video.play().catch(
-                    ()=>{}
+                    function(){}
                 );
 
             }
         );
 
-
         hls.on(
             Hls.Events.ERROR,
-            function(event,data){
+            function(
+                event,
+                data
+            ){
 
                 if(data.fatal){
 
@@ -779,8 +608,7 @@ function playChannel(channel){
         )
     ){
 
-        video.src =
-            channel.url;
+        video.src = channel.url;
 
         video.addEventListener(
             "loadedmetadata",
@@ -789,11 +617,13 @@ function playChannel(channel){
                 loading.style.display = "none";
 
                 video.play().catch(
-                    ()=>{}
+                    function(){}
                 );
 
             },
-            {once:true}
+            {
+                once:true
+            }
         );
 
     }
@@ -803,68 +633,85 @@ function playChannel(channel){
         loading.style.display = "none";
 
         nowPlaying.textContent =
-            "❌ HLS is not supported.";
+            "❌ HLS is not supported";
 
     }
 
 }
 
 
+/* =====================================================
+   SHOW CHANNELS
+===================================================== */
+
 function showChannels(list){
 
     channelsContainer.innerHTML = "";
 
-
     if(list.length === 0){
 
         channelsContainer.innerHTML =
-            "<p>No channel found.</p>";
+            '<div style="color:#aaa;padding:15px;">No channel found.</div>';
 
         return;
 
     }
 
 
-    list.forEach(
-        channel => {
+    list.forEach(function(channel){
 
-            const card =
-                document.createElement("div");
+        const card =
+            document.createElement("div");
 
-            card.className =
-                "channel";
-
-
-            card.innerHTML = `
-
-                <img
-                    src="${channel.logo}"
-                    alt="${channel.name}">
-
-                <div class="channel-name">
-                    ${channel.name}
-                </div>
-
-            `;
+        card.className =
+            "channel-card";
 
 
-            card.addEventListener(
-                "click",
-                ()=>{
-                    playChannel(channel);
-                }
-            );
+        card.innerHTML = `
+
+            <img
+                class="channel-logo"
+                src="${channel.logo}"
+                alt="${channel.name}"
+                loading="lazy"
+                onerror="this.src='https://via.placeholder.com/200x120/111111/ffffff?text=TV'"
+            >
+
+            <div class="channel-name">
+                ${channel.name}
+            </div>
+
+        `;
 
 
-            channelsContainer.appendChild(
-                card
-            );
+        card.addEventListener(
+            "click",
+            function(){
 
-        }
-    );
+                playChannel(channel);
+
+                window.scrollTo({
+                    top:0,
+                    behavior:"smooth"
+                });
+
+            }
+        );
+
+
+        channelsContainer.appendChild(card);
+
+    });
 
 }
 
+
+showChannels(channels);
+
+
+/* =====================================================
+   CHANNEL SEARCH
+===================================================== */
 
 searchInput.addEventListener(
     "input",
@@ -872,16 +719,19 @@ searchInput.addEventListener(
 
         const value =
             this.value
-                .toLowerCase()
-                .trim();
+            .toLowerCase()
+            .trim();
 
 
         const filtered =
             channels.filter(
-                channel =>
-                    channel.name
+                function(channel){
+
+                    return channel.name
                         .toLowerCase()
-                        .includes(value)
+                        .includes(value);
+
+                }
             );
 
 
@@ -891,38 +741,23 @@ searchInput.addEventListener(
 );
 
 
-showChannels(channels);
-
-</script>
-
-
-<!-- ================================================= -->
-<!-- ================= MOVIE JAVASCRIPT =============== -->
-<!-- ================================================= -->
-
-<script>
-
-/*
-==========================================================
-FREE MOVIE DATA
-==========================================================
-
-TMDB is NOT used.
-
-Video files are hosted externally.
-Always verify the source/license before commercial use.
-*/
-
+/* =====================================================
+   FREE MOVIES
+===================================================== */
 
 const freeMovies = [
 
     {
-        title:"The General",
-        year:"1926",
-        date:"1926",
-        genre:["Comedy","Silent","Classic"],
-        runtime:"1h 15m",
-        rating:"⭐ Public Domain",
+        title: "The General",
+        year: "1926",
+        date: "1926",
+        genre: [
+            "Comedy",
+            "Silent",
+            "Classic"
+        ],
+        runtime: "1h 15m",
+        rating: "⭐ Public Domain",
 
         poster:
         "https://commons.wikimedia.org/wiki/Special:Redirect/file/The_General_(1926)_-_Movie_Poster.png",
@@ -934,17 +769,21 @@ const freeMovies = [
         "https://commons.wikimedia.org/wiki/File:The_General_(1926).webm",
 
         description:
-        "A classic silent comedy starring Buster Keaton. The film follows a train engineer during the American Civil War."
+        "A classic silent comedy starring Buster Keaton."
     },
 
 
     {
-        title:"Captain Kidd",
-        year:"1945",
-        date:"1945",
-        genre:["Adventure","Drama","Classic"],
-        runtime:"1h 28m",
-        rating:"⭐ Public Domain",
+        title: "Captain Kidd",
+        year: "1945",
+        date: "1945",
+        genre: [
+            "Adventure",
+            "Drama",
+            "Classic"
+        ],
+        runtime: "1h 28m",
+        rating: "⭐ Public Domain",
 
         poster:
         "https://commons.wikimedia.org/wiki/Special:Redirect/file/Captain_Kidd_(1945).jpg",
@@ -956,67 +795,360 @@ const freeMovies = [
         "https://commons.wikimedia.org/wiki/File:Captain_Kidd_(1945).webm",
 
         description:
-        "A classic American adventure film starring Charles Laughton, Randolph Scott and Barbara Britton."
+        "A classic American adventure film starring Charles Laughton."
+    },
+
+
+    {
+        title: "জামাই বাবু",
+        year: "1931",
+        date: "1931",
+        genre: [
+            "Bangla",
+            "Comedy",
+            "Silent"
+        ],
+        runtime: "22m",
+        rating: "⭐ Public Domain",
+
+        poster:
+        "https://via.placeholder.com/500x750/171717/ffffff?text=Jamai+Babu",
+
+        video:
+        "https://commons.wikimedia.org/wiki/Special:Redirect/file/জামাই বাবু - বাংলা চলচ্চিত্র (১৯৩১).webm",
+
+        source:
+        "https://commons.wikimedia.org/wiki/File:জামাই_বাবু_-_বাংলা_চলচ্চিত্র_(১৯৩১).webm",
+
+        description:
+        "A surviving silent Bengali comedy film from 1931."
+    },
+
+
+    {
+        title: "চণ্ডীদাস",
+        year: "1932",
+        date: "1932",
+        genre: [
+            "Bangla",
+            "Drama",
+            "Classic"
+        ],
+        runtime: "Classic film",
+        rating: "⭐ Public Domain",
+
+        poster:
+        "https://via.placeholder.com/500x750/171717/ffffff?text=Chandidas",
+
+        video:
+        "https://commons.wikimedia.org/wiki/Special:Redirect/file/চণ্ডীদাস - বাংলা চলচ্চিত্র (১৯৩২).webm",
+
+        source:
+        "https://commons.wikimedia.org/wiki/File:চণ্ডীদাস_-_বাংলা_চলচ্চিত্র_(১৯৩২).webm",
+
+        description:
+        "A classic Bengali film directed by Debaki Kumar Bose."
+    },
+
+
+    {
+        title: "কৃষ্ণকান্তের উইল",
+        year: "1932",
+        date: "1932",
+        genre: [
+            "Bangla",
+            "Drama",
+            "Classic"
+        ],
+        runtime: "1h 12m",
+        rating: "⭐ Public Domain",
+
+        poster:
+        "https://via.placeholder.com/500x750/171717/ffffff?text=Krishnakanter+Will",
+
+        video:
+        "https://commons.wikimedia.org/wiki/Special:Redirect/file/কৃষ্ণকান্তের উইল - বাংলা চলচ্চিত্র (১৯৩২).webm",
+
+        source:
+        "https://commons.wikimedia.org/wiki/File:কৃষ্ণকান্তের_উইল_-_বাংলা_চলচ্চিত্র_(১৯৩২).webm",
+
+        description:
+        "A classic Bengali film based on Bankim Chandra Chattopadhyay's work."
+    },
+
+
+    {
+        title: "মুক্তি",
+        year: "1937",
+        date: "1937",
+        genre: [
+            "Bangla",
+            "Drama",
+            "Classic"
+        ],
+        runtime: "1h 55m",
+        rating: "⭐ Public Domain",
+
+        poster:
+        "https://via.placeholder.com/500x750/171717/ffffff?text=Mukti",
+
+        video:
+        "https://commons.wikimedia.org/wiki/Special:Redirect/file/মুক্তি - বাংলা চলচ্চিত্র (১৯৩৭).webm",
+
+        source:
+        "https://commons.wikimedia.org/wiki/File:মুক্তি_-_বাংলা_চলচ্চিত্র_(১৯৩৭).webm",
+
+        description:
+        "Mukti is a Bengali classic directed by P.C. Barua."
+    },
+
+
+    {
+        title: "বিদ্যাপতি",
+        year: "1937",
+        date: "1937",
+        genre: [
+            "Bangla",
+            "Drama",
+            "Classic"
+        ],
+        runtime: "59m",
+        rating: "⭐ Public Domain",
+
+        poster:
+        "https://via.placeholder.com/500x750/171717/ffffff?text=Bidyapati",
+
+        video:
+        "https://commons.wikimedia.org/wiki/Special:Redirect/file/বিদ্যাপতি - বাংলা চলচ্চিত্র (১৯৩৭).webm",
+
+        source:
+        "https://commons.wikimedia.org/wiki/File:বিদ্যাপতি_-_বাংলা_চলচ্চিত্র_(১৯৩৭).webm",
+
+        description:
+        "A classic Bengali film directed by Debaki Bose."
+    },
+
+
+    {
+        title: "জীবন মরণ",
+        year: "1938",
+        date: "1938",
+        genre: [
+            "Bangla",
+            "Drama",
+            "Classic"
+        ],
+        runtime: "1h 48m",
+        rating: "⭐ Public Domain",
+
+        poster:
+        "https://via.placeholder.com/500x750/171717/ffffff?text=Jiban+Maran",
+
+        video:
+        "https://commons.wikimedia.org/wiki/Special:Redirect/file/জীবন মরণ - বাংলা চলচ্চিত্র (১৯৩৮).webm",
+
+        source:
+        "https://commons.wikimedia.org/wiki/File:জীবন_মরণ_-_বাংলা_চলচ্চিত্র_(১৯৩৮).webm",
+
+        description:
+        "A classic Bengali film from 1938 directed by Nitin Bose."
+    },
+
+
+    {
+        title: "রজত জয়ন্তী",
+        year: "1939",
+        date: "1939",
+        genre: [
+            "Bangla",
+            "Drama",
+            "Classic"
+        ],
+        runtime: "2h 04m",
+        rating: "⭐ Public Domain",
+
+        poster:
+        "https://via.placeholder.com/500x750/171717/ffffff?text=Rajat+Jayanti",
+
+        video:
+        "https://commons.wikimedia.org/wiki/Special:Redirect/file/রজত জয়ন্তী - বাংলা চলচ্চিত্র (১৯৩৯).webm",
+
+        source:
+        "https://commons.wikimedia.org/wiki/File:রজত_জয়ন্তী_-_বাংলা_চলচ্চিত্র_(১৯৩৯).webm",
+
+        description:
+        "A Bengali classic directed by P.C. Barua."
+    },
+
+
+    {
+        title: "ডাক্তার",
+        year: "1940",
+        date: "1940",
+        genre: [
+            "Bangla",
+            "Drama",
+            "Classic"
+        ],
+        runtime: "Classic film",
+        rating: "⭐ Public Domain",
+
+        poster:
+        "https://via.placeholder.com/500x750/171717/ffffff?text=Daktar",
+
+        video:
+        "https://commons.wikimedia.org/wiki/Special:Redirect/file/ডাক্তার - বাংলা চলচ্চিত্র (১৯৪০).webm",
+
+        source:
+        "https://commons.wikimedia.org/wiki/File:ডাক্তার_-_বাংলা_চলচ্চিত্র_(১৯৪০).webm",
+
+        description:
+        "A classic Bengali film directed by Phani Majumdar."
+    },
+
+
+    {
+        title: "অবতার",
+        year: "1941",
+        date: "1941",
+        genre: [
+            "Bangla",
+            "Drama",
+            "Classic"
+        ],
+        runtime: "1h 53m",
+        rating: "⭐ Public Domain",
+
+        poster:
+        "https://via.placeholder.com/500x750/171717/ffffff?text=Avatar",
+
+        video:
+        "https://commons.wikimedia.org/wiki/Special:Redirect/file/অবতার - বাংলা চলচ্চিত্র (১৯৪১).webm",
+
+        source:
+        "https://commons.wikimedia.org/wiki/File:অবতার_-_বাংলা_চলচ্চিত্র_(১৯৪১).webm",
+
+        description:
+        "A classic Bengali film from 1941."
+    },
+
+
+    {
+        title: "শ্রীরাধা",
+        year: "1941",
+        date: "1941",
+        genre: [
+            "Bangla",
+            "Drama",
+            "Classic"
+        ],
+        runtime: "Classic film",
+        rating: "⭐ Public Domain",
+
+        poster:
+        "https://via.placeholder.com/500x750/171717/ffffff?text=Shri+Radha",
+
+        video:
+        "https://commons.wikimedia.org/wiki/Special:Redirect/file/শ্রীরাধা - বাংলা চলচ্চিত্র (১৯৪১).webm",
+
+        source:
+        "https://commons.wikimedia.org/wiki/File:শ্রীরাধা_-_বাংলা_চলচ্চিত্র_(১৯৪১).webm",
+
+        description:
+        "A classic Bengali film with an extensive surviving film record."
+    },
+
+
+    {
+        title: "ঠিকাদার",
+        year: "1940",
+        date: "1940",
+        genre: [
+            "Bangla",
+            "Drama",
+            "Classic"
+        ],
+        runtime: "2h 21m",
+        rating: "⭐ Public Domain",
+
+        poster:
+        "https://via.placeholder.com/500x750/171717/ffffff?text=Thikadar",
+
+        video:
+        "https://commons.wikimedia.org/wiki/Special:Redirect/file/ঠিকাদার - বাংলা চলচ্চিত্র (১৯৪০).webm",
+
+        source:
+        "https://commons.wikimedia.org/wiki/File:ঠিকাদার_-_বাংলা_চলচ্চিত্র_(১৯৪০).webm",
+
+        description:
+        "A classic Bengali film from 1940."
+    },
+
+
+    {
+        title: "গৃহলক্ষ্মী",
+        year: "1945",
+        date: "1945",
+        genre: [
+            "Bangla",
+            "Drama",
+            "Classic"
+        ],
+        runtime: "Classic film",
+        rating: "⭐ Public Domain",
+
+        poster:
+        "https://via.placeholder.com/500x750/171717/ffffff?text=Grihalakshmi",
+
+        video:
+        "https://commons.wikimedia.org/wiki/Special:Redirect/file/গৃহলক্ষ্মী - বাংলা চলচ্চিত্র (১৯৪৫).webm",
+
+        source:
+        "https://commons.wikimedia.org/wiki/File:গৃহলক্ষ্মী_-_বাংলা_চলচ্চিত্র_(১৯৪৫).webm",
+
+        description:
+        "A Bengali classic from 1945."
     }
 
 ];
 
 
+/* =====================================================
+   MOVIE ELEMENTS
+===================================================== */
+
 const movieContainer =
-    document.getElementById(
-        "movieContainer"
-    );
-
-
-const movieStatus =
-    document.getElementById(
-        "movieStatus"
-    );
-
+    document.getElementById("movieContainer");
 
 const movieSearch =
-    document.getElementById(
-        "movieSearch"
-    );
+    document.getElementById("movieSearch");
 
+const movieStatus =
+    document.getElementById("movieStatus");
 
 const movieModal =
-    document.getElementById(
-        "movieModal"
-    );
-
-
-const movieVideo =
-    document.getElementById(
-        "movieVideo"
-    );
-
+    document.getElementById("movieModal");
 
 const movieClose =
-    document.getElementById(
-        "movieClose"
-    );
+    document.getElementById("movieClose");
 
+const movieVideo =
+    document.getElementById("movieVideo");
 
 const movieModalTitle =
-    document.getElementById(
-        "movieModalTitle"
-    );
-
+    document.getElementById("movieModalTitle");
 
 const movieModalDescription =
-    document.getElementById(
-        "movieModalDescription"
-    );
+    document.getElementById("movieModalDescription");
 
 
-/* ================= RENDER MOVIES ================= */
+/* =====================================================
+   SHOW MOVIES
+===================================================== */
 
-
-function renderMovies(list){
+function showMovies(list){
 
     movieContainer.innerHTML = "";
-
 
     movieStatus.textContent =
         list.length +
@@ -1025,140 +1157,234 @@ function renderMovies(list){
 
     if(list.length === 0){
 
-        movieContainer.innerHTML = `
-            <div class="no-movie">
-                🔎 No movie found.
-            </div>
-        `;
+        movieContainer.innerHTML =
+            '<div style="color:#aaa;">No movie found.</div>';
 
         return;
 
     }
 
 
-    list.forEach(
-        movie => {
+    list.forEach(function(movie){
 
-            const card =
-                document.createElement("article");
+        const card =
+            document.createElement("div");
 
-            card.className =
-                "movie-card";
+        card.className =
+            "movie-card";
 
 
-            card.innerHTML = `
+        const genres =
+            movie.genre
+            .map(function(g){
 
-                <div class="movie-poster-box">
+                return `
+                    <span class="badge">
+                        ${g}
+                    </span>
+                `;
 
-                    <img
-                        class="movie-poster"
-                        src="${movie.poster}"
-                        alt="${movie.title}"
-                        loading="lazy"
-                        onerror="
-                            this.src='https://via.placeholder.com/500x750/181818/ffffff?text=Movie';
-                        "
+            })
+            .join("");
+
+
+        card.innerHTML = `
+
+            <img
+                class="movie-poster"
+                src="${movie.poster}"
+                alt="${movie.title}"
+                loading="lazy"
+                onerror="this.src='https://via.placeholder.com/500x750/171717/ffffff?text=Movie'"
+            >
+
+            <div class="movie-info">
+
+                <div class="movie-title">
+                    ${movie.title}
+                </div>
+
+                <div class="movie-meta">
+                    📅 ${movie.date}
+                    &nbsp; • &nbsp;
+                    ⏱️ ${movie.runtime}
+                </div>
+
+                <div>
+                    ${genres}
+                </div>
+
+                <div class="movie-meta">
+                    ${movie.rating}
+                </div>
+
+                <div class="movie-description">
+                    ${movie.description}
+                </div>
+
+                <div class="movie-buttons">
+
+                    <button
+                        class="watch-btn"
+                        type="button"
                     >
+                        ▶ Watch Full Movie
+                    </button>
 
-                    <div class="movie-badge">
-                        FREE
-                    </div>
+                    <button
+                        class="source-btn"
+                        type="button"
+                    >
+                        ℹ️ Source / License
+                    </button>
 
                 </div>
 
+            </div>
 
-                <div class="movie-info">
-
-                    <div class="movie-title">
-                        ${movie.title}
-                    </div>
+        `;
 
 
-                    <div class="movie-meta">
+        card
+        .querySelector(".watch-btn")
+        .addEventListener(
+            "click",
+            function(){
 
-                        📅 ${movie.date}
-                        &nbsp; • &nbsp;
-                        ⏱️ ${movie.runtime}
+                openMovie(movie);
 
-                    </div>
-
-
-                    <div class="movie-tags">
-
-                        ${movie.genre
-                            .map(
-                                g =>
-                                `<span class="movie-tag">${g}</span>`
-                            )
-                            .join("")
-                        }
-
-                    </div>
+            }
+        );
 
 
-                    <div class="movie-description">
-                        ${movie.description}
-                    </div>
+        card
+        .querySelector(".source-btn")
+        .addEventListener(
+            "click",
+            function(){
 
-            `;
-
-
-            card
-                .querySelector(".watch-btn")
-                .addEventListener(
-                    "click",
-                    ()=>{
-                        openMovie(movie);
-                    }
+                window.open(
+                    movie.source,
+                    "_blank",
+                    "noopener,noreferrer"
                 );
 
-
-            card
-                .querySelector(".source-btn")
-                .addEventListener(
-                    "click",
-                    ()=>{
-
-                        window.open(
-                            movie.source,
-                            "_blank",
-                            "noopener,noreferrer"
-                        );
-
-                    }
-                );
+            }
+        );
 
 
-            movieContainer.appendChild(
-                card
-            );
+        movieContainer.appendChild(card);
 
-        }
-    );
+    });
 
 }
 
 
-/* ================= OPEN MOVIE ================= */
+showMovies(freeMovies);
 
+
+/* =====================================================
+   MOVIE SEARCH
+===================================================== */
+
+movieSearch.addEventListener(
+    "input",
+    function(){
+
+        const value =
+            this.value
+            .toLowerCase()
+            .trim();
+
+
+        const filtered =
+            freeMovies.filter(
+                function(movie){
+
+                    return (
+
+                        movie.title
+                            .toLowerCase()
+                            .includes(value)
+
+                        ||
+
+                        movie.year
+                            .toLowerCase()
+                            .includes(value)
+
+                        ||
+
+                        movie.description
+                            .toLowerCase()
+                            .includes(value)
+
+                        ||
+
+                        movie.genre
+                            .join(" ")
+                            .toLowerCase()
+                            .includes(value)
+
+                    );
+
+                }
+            );
+
+
+        showMovies(filtered);
+
+    }
+);
+
+
+/* =====================================================
+   OPEN MOVIE
+===================================================== */
 
 function openMovie(movie){
 
     movieModalTitle.textContent =
-        `${movie.title} (${movie.year})`;
+        movie.title +
+        " (" +
+        movie.year +
+        ")";
 
 
-    movieModalDescription.textContent =
-        `${movie.genre.join(" • ")} | ${movie.runtime} | ${movie.rating} — ${movie.description}`;
+    movieModalDescription.innerHTML = `
 
+        <p>
+            ${movie.description}
+        </p>
 
-    movieVideo.pause();
+        <p>
+            📅 Release year: ${movie.year}
+        </p>
 
-    movieVideo.removeAttribute(
-        "src"
-    );
+        <p>
+            ⏱️ Runtime: ${movie.runtime}
+        </p>
 
-    movieVideo.load();
+        <p>
+            🎬 Genre: ${movie.genre.join(", ")}
+        </p>
+
+        <p>
+            ⭐ ${movie.rating}
+        </p>
+
+        <p>
+            <a
+                href="${movie.source}"
+                target="_blank"
+                rel="noopener noreferrer"
+                style="color:#4da6ff;"
+            >
+                ℹ️ View Source / License
+            </a>
+        </p>
+
+    `;
 
 
     movieVideo.src =
@@ -1166,34 +1392,37 @@ function openMovie(movie){
 
 
     movieModal.style.display =
-        "flex";
+        "block";
 
 
-    movieVideo.load();
+    document.body.style.overflow =
+        "hidden";
 
 
     movieVideo.play().catch(
-        ()=>{}
+        function(){}
     );
 
 }
 
 
-/* ================= CLOSE MOVIE ================= */
-
+/* =====================================================
+   CLOSE MOVIE
+===================================================== */
 
 function closeMovie(){
 
     movieVideo.pause();
 
-    movieVideo.removeAttribute(
-        "src"
-    );
+    movieVideo.removeAttribute("src");
 
     movieVideo.load();
 
     movieModal.style.display =
         "none";
+
+    document.body.style.overflow =
+        "";
 
 }
 
@@ -1209,8 +1438,7 @@ movieModal.addEventListener(
     function(event){
 
         if(
-            event.target ===
-            movieModal
+            event.target === movieModal
         ){
 
             closeMovie();
@@ -1225,7 +1453,10 @@ document.addEventListener(
     "keydown",
     function(event){
 
-        if(event.key === "Escape"){
+        if(
+            event.key === "Escape" &&
+            movieModal.style.display === "block"
+        ){
 
             closeMovie();
 
@@ -1233,53 +1464,6 @@ document.addEventListener(
 
     }
 );
-
-
-/* ================= MOVIE SEARCH ================= */
-
-
-movieSearch.addEventListener(
-    "input",
-    function(){
-
-        const value =
-            this.value
-                .toLowerCase()
-                .trim();
-
-
-        const filtered =
-            freeMovies.filter(
-                movie => {
-
-                    const text = (
-
-                        movie.title +
-                        " " +
-                        movie.year +
-                        " " +
-                        movie.genre.join(" ") +
-                        " " +
-                        movie.description
-
-                    ).toLowerCase();
-
-
-                    return text.includes(value);
-
-                }
-            );
-
-
-        renderMovies(filtered);
-
-    }
-);
-
-
-/* ================= START ================= */
-
-renderMovies(freeMovies);
 
 </script>
 
