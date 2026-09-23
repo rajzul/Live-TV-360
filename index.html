@@ -1,489 +1,938 @@
-```html
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
 
 <title>My Live TV</title>
 
+
+<!-- HLS.JS -->
+
 <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
 
+
 <style>
+
+/* =====================================================
+   GENERAL
+===================================================== */
+
 * {
     box-sizing: border-box;
 }
 
+
 body {
+
     margin: 0;
+
     font-family: Arial, sans-serif;
+
     background: #111;
+
     color: #fff;
+
 }
+
 
 header {
+
     background: #1c1c1c;
+
     padding: 18px;
+
     text-align: center;
+
     font-size: 24px;
+
     font-weight: bold;
+
     border-bottom: 1px solid #333;
+
 }
+
 
 .container {
+
     width: 95%;
+
     max-width: 1200px;
+
     margin: auto;
+
 }
+
+
+/* =====================================================
+   LIVE TV PLAYER
+===================================================== */
 
 .player-box {
+
     position: relative;
+
     width: 100%;
+
     background: #000;
+
     margin-top: 20px;
+
     border-radius: 10px;
+
     overflow: hidden;
+
 }
 
-video {
+
+#video {
+
     width: 100%;
+
     height: auto;
+
     min-height: 300px;
+
     background: #000;
+
 }
+
 
 .loading {
+
     position: absolute;
+
     top: 50%;
+
     left: 50%;
+
     transform: translate(-50%, -50%);
+
     display: none;
+
     background: rgba(0,0,0,.7);
+
     padding: 12px 20px;
+
     border-radius: 8px;
+
 }
+
 
 .now-playing {
+
     margin-top: 10px;
+
     padding: 12px;
+
     background: #1c1c1c;
+
     border-radius: 8px;
+
     text-align: center;
+
 }
+
+
+/* =====================================================
+   ADS
+===================================================== */
 
 .ad-box {
+
     margin: 20px 0;
+
     text-align: center;
+
     min-height: 90px;
+
 }
+
+
+/* =====================================================
+   CHANNEL SEARCH
+===================================================== */
 
 .search {
+
     width: 100%;
+
     padding: 14px;
+
     border: none;
+
     outline: none;
+
     border-radius: 8px;
+
     background: #222;
+
     color: #fff;
+
     font-size: 16px;
+
     margin: 15px 0;
+
 }
+
 
 .channels {
+
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+
+    grid-template-columns:
+        repeat(auto-fill, minmax(150px, 1fr));
+
     gap: 15px;
+
 }
+
 
 .channel-card {
+
     background: #1c1c1c;
+
     border-radius: 10px;
+
     padding: 12px;
+
     text-align: center;
+
     cursor: pointer;
+
     transition: .2s;
+
     border: 1px solid #333;
+
 }
+
 
 .channel-card:hover {
+
     transform: translateY(-3px);
+
     background: #252525;
+
 }
+
 
 .channel-card img {
+
     width: 80px;
+
     height: 80px;
+
     object-fit: contain;
+
     border-radius: 8px;
+
     background: #000;
+
 }
+
 
 .channel-name {
+
     margin-top: 10px;
+
     font-weight: bold;
+
     font-size: 14px;
+
 }
 
-/* =========================
-   MOVIE SECTION
-========================= */
+
+/* =====================================================
+   FREE MOVIE SECTION
+===================================================== */
 
 .movie-section {
+
     margin-top: 35px;
+
     padding: 20px;
+
     background: #171717;
+
     border-radius: 12px;
+
 }
+
 
 .movie-section h2 {
+
     margin-top: 0;
+
     text-align: center;
+
 }
+
 
 .movie-search {
+
     width: 100%;
+
     padding: 14px;
+
     border: none;
+
     outline: none;
+
     border-radius: 8px;
+
     background: #252525;
+
     color: #fff;
+
     font-size: 16px;
+
     margin: 15px 0;
+
 }
+
 
 .movie-status {
+
     text-align: center;
+
     color: #bbb;
+
     padding: 10px;
+
 }
+
 
 .movie-container {
+
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+
+    grid-template-columns:
+        repeat(auto-fill, minmax(180px, 1fr));
+
     gap: 18px;
+
 }
+
 
 .movie-card {
+
     background: #222;
+
     border-radius: 10px;
+
     overflow: hidden;
+
     border: 1px solid #333;
+
     transition: .2s;
+
 }
+
 
 .movie-card:hover {
+
     transform: translateY(-4px);
+
 }
+
 
 .movie-poster {
+
     width: 100%;
+
     height: 270px;
+
     object-fit: cover;
+
     display: block;
+
     background: #000;
+
 }
+
 
 .movie-info {
+
     padding: 12px;
+
 }
+
 
 .movie-title {
+
     font-size: 16px;
+
     font-weight: bold;
+
     margin-bottom: 8px;
+
 }
+
 
 .movie-meta {
+
     font-size: 13px;
+
     color: #bbb;
+
+    line-height: 1.6;
+
     margin-bottom: 8px;
+
 }
+
 
 .movie-overview {
+
     font-size: 13px;
+
     color: #ccc;
+
     line-height: 1.5;
+
     display: -webkit-box;
+
     -webkit-line-clamp: 4;
+
     -webkit-box-orient: vertical;
+
     overflow: hidden;
+
 }
 
-.trailer-btn {
+
+/* =====================================================
+   WATCH MOVIE BUTTON
+===================================================== */
+
+.watch-movie-btn {
+
     width: 100%;
+
     border: none;
+
     background: #e50914;
+
     color: #fff;
-    padding: 10px;
+
+    padding: 11px;
+
     margin-top: 12px;
+
     border-radius: 6px;
+
     cursor: pointer;
+
     font-weight: bold;
+
 }
 
-.trailer-btn:hover {
+
+.watch-movie-btn:hover {
+
     background: #b20710;
+
 }
+
+
+/* =====================================================
+   SOURCE BUTTON
+===================================================== */
+
+.source-btn {
+
+    width: 100%;
+
+    border: none;
+
+    background: #333;
+
+    color: #ddd;
+
+    padding: 9px;
+
+    margin-top: 8px;
+
+    border-radius: 6px;
+
+    cursor: pointer;
+
+}
+
+
+.source-btn:hover {
+
+    background: #444;
+
+}
+
+
+/* =====================================================
+   MOVIE PLAYER MODAL
+===================================================== */
 
 .movie-modal {
+
     display: none;
+
     position: fixed;
+
     z-index: 99999;
+
     inset: 0;
-    background: rgba(0,0,0,.85);
+
+    background: rgba(0,0,0,.90);
+
     align-items: center;
+
     justify-content: center;
-    padding: 20px;
+
+    padding: 15px;
+
 }
+
 
 .movie-modal-box {
+
     width: 100%;
-    max-width: 900px;
+
+    max-width: 1000px;
+
     background: #111;
+
     position: relative;
+
     border-radius: 10px;
+
     overflow: hidden;
+
 }
 
-.movie-modal iframe {
+
+.movie-video {
+
     width: 100%;
-    height: 500px;
-    border: none;
+
+    height: auto;
+
+    max-height: 80vh;
+
+    min-height: 300px;
+
+    background: #000;
+
     display: block;
+
 }
+
 
 .movie-close {
+
     position: absolute;
+
     right: 10px;
+
     top: 8px;
+
     z-index: 2;
-    width: 38px;
-    height: 38px;
+
+    width: 40px;
+
+    height: 40px;
+
     border: none;
+
     border-radius: 50%;
-    background: rgba(0,0,0,.8);
+
+    background: rgba(0,0,0,.85);
+
     color: #fff;
+
     font-size: 28px;
+
     cursor: pointer;
+
 }
 
-.tmdb-credit {
+
+.movie-credit {
+
     text-align: center;
+
     color: #999;
+
     font-size: 12px;
+
+    line-height: 1.5;
+
     margin-top: 18px;
+
 }
+
+
+/* =====================================================
+   FOOTER
+===================================================== */
 
 footer {
+
     text-align: center;
+
     padding: 25px 10px;
+
     color: #888;
+
     margin-top: 30px;
+
 }
 
-/* =========================
+
+/* =====================================================
    MOBILE
-========================= */
+===================================================== */
 
 @media (max-width: 600px) {
 
     header {
+
         font-size: 20px;
+
         padding: 15px;
+
     }
 
-    video {
+
+    #video {
+
         min-height: 220px;
+
     }
+
 
     .channels {
-        grid-template-columns: repeat(2, 1fr);
+
+        grid-template-columns:
+            repeat(2, 1fr);
+
     }
+
 
     .movie-container {
-        grid-template-columns: repeat(2, 1fr);
+
+        grid-template-columns:
+            repeat(2, 1fr);
+
         gap: 10px;
+
     }
+
 
     .movie-poster {
+
         height: 230px;
+
     }
+
 
     .movie-info {
+
         padding: 9px;
+
     }
+
 
     .movie-title {
+
         font-size: 14px;
+
     }
+
 
     .movie-overview {
+
         font-size: 12px;
+
     }
 
-    .movie-modal iframe {
-        height: 250px;
+
+    .movie-video {
+
+        min-height: 220px;
+
     }
+
 }
+
 </style>
+
 </head>
+
 
 <body>
 
+
+<!-- =====================================================
+     HEADER
+===================================================== -->
+
 <header>
+
     📺 MY LIVE TV
+
 </header>
+
+
 
 <div class="container">
 
-    <!-- =========================
-         VIDEO PLAYER
-    ========================== -->
 
-    <div class="player-box">
-        <video id="video" controls playsinline></video>
-        <div id="loading" class="loading">⏳ Loading...</div>
-    </div>
+<!-- =====================================================
+     LIVE TV PLAYER
+===================================================== -->
 
-    <div id="nowPlaying" class="now-playing">
-        📺 Select a channel
-    </div>
+<div class="player-box">
 
-
-    <!-- =========================
-         AD
-    ========================== -->
-
-    <div class="ad-box">
-
-        <script type="text/javascript">
-            atOptions = {
-                'key' : 'b210f3c838da539571cda73d02ec62cf',
-                'format' : 'iframe',
-                'height' : 90,
-                'width' : 728,
-                'params' : {}
-            };
-        </script>
-
-        <script
-            type="text/javascript"
-            src="https://www.highrevenuegate.com/b210f3c838da539571cda73d02ec62cf/invoke.js">
-        </script>
-
-    </div>
+    <video
+        id="video"
+        controls
+        playsinline>
+    </video>
 
 
-    <!-- =========================
-         CHANNEL SEARCH
-    ========================== -->
+    <div
+        id="loading"
+        class="loading">
 
-    <input
-        type="text"
-        id="search"
-        class="search"
-        placeholder="🔎 Search channel..."
-    >
-
-    <div id="channels" class="channels"></div>
-
-
-    <!-- =========================
-         MOVIE SECTION
-    ========================== -->
-
-    <section class="movie-section">
-
-        <h2>🎬 Latest Movies</h2>
-
-        <input
-            type="text"
-            id="movieSearch"
-            class="movie-search"
-            placeholder="🔎 Search movie..."
-        >
-
-        <div id="movieStatus" class="movie-status">
-            ⏳ Loading movies...
-        </div>
-
-        <div id="movieContainer" class="movie-container"></div>
-
-        <div class="tmdb-credit">
-            Movie data and images provided by TMDB.
-        </div>
-
-    </section>
-
-
-    <!-- =========================
-         MOVIE TRAILER MODAL
-    ========================== -->
-
-    <div id="movieModal" class="movie-modal">
-
-        <div class="movie-modal-box">
-
-            <button
-                id="movieClose"
-                class="movie-close"
-                aria-label="Close"
-            >
-                ×
-            </button>
-
-            <iframe
-                id="trailerFrame"
-                src=""
-                title="Movie Trailer"
-                allow="autoplay; encrypted-media"
-                allowfullscreen>
-            </iframe>
-
-        </div>
-
-    </div>
-
-
-    <!-- =========================
-         AD 2
-    ========================== -->
-
-    <div class="ad-box">
-
-        <script type="text/javascript">
-            atOptions = {
-                'key' : '7b81f78429649ff757f5786b7801dde3',
-                'format' : 'iframe',
-                'height' : 90,
-                'width' : 728,
-                'params' : {}
-            };
-        </script>
-
-        <script
-            type="text/javascript"
-            src="https://www.profitableratecpm.com/7b81f78429649ff757f5786b7801dde3/invoke.js">
-        </script>
-
-    </div>
-
-
-    <div class="ad-box">
-
-        <script
-            src="https://pl29675353.profitableratecpmnetwork.com/b9/61/b1/b961b1a6b93a047001b62b37baa7364b.js">
-        </script>
+        ⏳ Loading...
 
     </div>
 
 </div>
 
 
+<div
+    id="nowPlaying"
+    class="now-playing">
+
+    📺 Select a channel
+
+</div>
+
+
+
+<!-- =====================================================
+     AD 1
+===================================================== -->
+
+<div class="ad-box">
+
+<script type="text/javascript">
+
+atOptions = {
+
+    'key' :
+    'b210f3c838da539571cda73d02ec62cf',
+
+    'format' :
+    'iframe',
+
+    'height' :
+    90,
+
+    'width' :
+    728,
+
+    'params' : {}
+
+};
+
+</script>
+
+
+<script
+    type="text/javascript"
+    src="https://www.highrevenuegate.com/b210f3c838da539571cda73d02ec62cf/invoke.js">
+</script>
+
+</div>
+
+
+
+<!-- =====================================================
+     CHANNEL SEARCH
+===================================================== -->
+
+<input
+    type="text"
+    id="search"
+    class="search"
+    placeholder="🔎 Search channel..."
+>
+
+
+<div
+    id="channels"
+    class="channels">
+</div>
+
+
+
+<!-- =====================================================
+     FREE MOVIES
+===================================================== -->
+
+<section class="movie-section">
+
+
+<h2>
+
+    🎬 Free Full Movies
+
+</h2>
+
+
+<input
+    type="text"
+    id="movieSearch"
+    class="movie-search"
+    placeholder="🔎 Search movie..."
+>
+
+
+<div
+    id="movieStatus"
+    class="movie-status">
+
+    🎬 Loading free movies...
+
+</div>
+
+
+<div
+    id="movieContainer"
+    class="movie-container">
+</div>
+
+
+<div class="movie-credit">
+
+    🎬 Movie files are from Wikimedia Commons.
+    Check each source/license before reuse.
+
+</div>
+
+
+</section>
+
+
+
+<!-- =====================================================
+     MOVIE PLAYER
+===================================================== -->
+
+<div
+    id="movieModal"
+    class="movie-modal">
+
+
+<div class="movie-modal-box">
+
+
+<button
+    id="movieClose"
+    class="movie-close"
+    aria-label="Close">
+
+    ×
+
+</button>
+
+
+<video
+    id="movieVideo"
+    class="movie-video"
+    controls
+    playsinline>
+</video>
+
+
+</div>
+
+</div>
+
+
+
+<!-- =====================================================
+     AD 2
+===================================================== -->
+
+<div class="ad-box">
+
+<script type="text/javascript">
+
+atOptions = {
+
+    'key' :
+    '7b81f78429649ff757f5786b7801dde3',
+
+    'format' :
+    'iframe',
+
+    'height' :
+    90,
+
+    'width' :
+    728,
+
+    'params' : {}
+
+};
+
+</script>
+
+
+<script
+    type="text/javascript"
+    src="https://www.profitableratecpm.com/7b81f78429649ff757f5786b7801dde3/invoke.js">
+</script>
+
+</div>
+
+
+
+<!-- =====================================================
+     AD 3
+===================================================== -->
+
+<div class="ad-box">
+
+<script
+    src="https://pl29675353.profitableratecpmnetwork.com/b9/61/b1/b961b1a6b93a047001b62b37baa7364b.js">
+</script>
+
+</div>
+
+
+</div>
+
+
+
+<!-- =====================================================
+     FOOTER
+===================================================== -->
+
 <footer>
+
     © 2026 My Live TV
+
 </footer>
+
 
 
 <!-- =====================================================
@@ -492,146 +941,307 @@ footer {
 
 <script>
 
+
 const channels = [
 
-    {
-        name: "9X TASHAN",
-        logo: "https://via.placeholder.com/100",
-        url: "https://wiselp.wiseplayout.com/9X_Tashan/master.m3u8"
-    },
 
     {
-        name: "DEEPTO TV",
-        logo: "https://via.placeholder.com/100",
-        url: "https://byphdgllyk.gpcdn.net/hls/deeptotv/0_1/index.m3u8"
+        name:
+        "9X TASHAN",
+
+        logo:
+        "https://via.placeholder.com/100",
+
+        url:
+        "https://wiselp.wiseplayout.com/9X_Tashan/master.m3u8"
     },
 
-    {
-        name: "ENTER10 BANGLA",
-        logo: "https://via.placeholder.com/100",
-        url: "https://live-bangla.akamaized.net/liveabr/pub-iobanglakp3sff/live_240p/chunks.m3u8"
-    },
 
     {
-        name: "MUSIC",
-        logo: "https://via.placeholder.com/100",
-        url: "https://albportal.net/albkanalemusic.m3u8"
+        name:
+        "DEEPTO TV",
+
+        logo:
+        "https://via.placeholder.com/100",
+
+        url:
+        "https://byphdgllyk.gpcdn.net/hls/deeptotv/0_1/index.m3u8"
     },
 
-    {
-        name: "FOOTBALL",
-        logo: "https://via.placeholder.com/100",
-        url: "http://88.212.15.19/live/test_ctsport_25p/playlist.m3u8"
-    },
 
     {
-        name: "CINEMA",
-        logo: "https://via.placeholder.com/100",
-        url: "http://stream.mcquack.net/258/index.m3u8"
+        name:
+        "ENTER10 BANGLA",
+
+        logo:
+        "https://via.placeholder.com/100",
+
+        url:
+        "https://live-bangla.akamaized.net/liveabr/pub-iobanglakp3sff/live_240p/chunks.m3u8"
     },
 
-    {
-        name: "MOVIES-1",
-        logo: "https://via.placeholder.com/100",
-        url: "https://d1j2u714xk898n.cloudfront.net/scheduler/scheduleMaster/145.m3u8"
-    },
 
     {
-        name: "MOVIES-2",
-        logo: "https://via.placeholder.com/100",
-        url: "https://afrafhls.wns.live/hls/stream.m3u8"
+        name:
+        "MUSIC",
+
+        logo:
+        "https://via.placeholder.com/100",
+
+        url:
+        "https://albportal.net/albkanalemusic.m3u8"
     },
 
-    {
-        name: "BHUJPURI CINEMA",
-        logo: "https://via.placeholder.com/100",
-        url: "https://live-bhojpuri.akamaized.net/liveabr/playlist.m3u8"
-    },
 
     {
-        name: "MOVIES-3",
-        logo: "https://via.placeholder.com/100",
-        url: "https://live.presstv.ir/hls/ifilmen.m3u8"
+        name:
+        "FOOTBALL",
+
+        logo:
+        "https://via.placeholder.com/100",
+
+        url:
+        "http://88.212.15.19/live/test_ctsport_25p/playlist.m3u8"
+    },
+
+
+    {
+        name:
+        "CINEMA",
+
+        logo:
+        "https://via.placeholder.com/100",
+
+        url:
+        "http://stream.mcquack.net/258/index.m3u8"
+    },
+
+
+    {
+        name:
+        "MOVIES-1",
+
+        logo:
+        "https://via.placeholder.com/100",
+
+        url:
+        "https://d1j2u714xk898n.cloudfront.net/scheduler/scheduleMaster/145.m3u8"
+    },
+
+
+    {
+        name:
+        "MOVIES-2",
+
+        logo:
+        "https://via.placeholder.com/100",
+
+        url:
+        "https://afrafhls.wns.live/hls/stream.m3u8"
+    },
+
+
+    {
+        name:
+        "BHUJPURI CINEMA",
+
+        logo:
+        "https://via.placeholder.com/100",
+
+        url:
+        "https://live-bhojpuri.akamaized.net/liveabr/playlist.m3u8"
+    },
+
+
+    {
+        name:
+        "MOVIES-3",
+
+        logo:
+        "https://via.placeholder.com/100",
+
+        url:
+        "https://live.presstv.ir/hls/ifilmen.m3u8"
     }
 
 ];
 
 
-const video = document.getElementById("video");
-const loading = document.getElementById("loading");
-const nowPlaying = document.getElementById("nowPlaying");
-const channelsContainer = document.getElementById("channels");
-const searchInput = document.getElementById("search");
+
+const video =
+    document.getElementById(
+        "video"
+    );
+
+
+const loading =
+    document.getElementById(
+        "loading"
+    );
+
+
+const nowPlaying =
+    document.getElementById(
+        "nowPlaying"
+    );
+
+
+const channelsContainer =
+    document.getElementById(
+        "channels"
+    );
+
+
+const searchInput =
+    document.getElementById(
+        "search"
+    );
+
 
 let hls = null;
 
 
+
+/* =====================================================
+   PLAY CHANNEL
+===================================================== */
+
 function playChannel(channel) {
 
-    loading.style.display = "block";
+
+    loading.style.display =
+        "block";
+
 
     nowPlaying.innerHTML =
         "📺 Now Playing: <strong>" +
         channel.name +
         "</strong>";
 
+
     if (hls) {
+
         hls.destroy();
+
         hls = null;
+
     }
+
 
     if (Hls.isSupported()) {
 
-        hls = new Hls();
 
-        hls.loadSource(channel.url);
+        hls =
+            new Hls();
 
-        hls.attachMedia(video);
 
-        hls.on(Hls.Events.MANIFEST_PARSED, function () {
+        hls.loadSource(
+            channel.url
+        );
 
-            loading.style.display = "none";
 
-            video.play().catch(function () {});
+        hls.attachMedia(
+            video
+        );
 
-        });
 
-        hls.on(Hls.Events.ERROR, function (event, data) {
+        hls.on(
+            Hls.Events.MANIFEST_PARSED,
 
-            if (data.fatal) {
+            function() {
 
-                loading.style.display = "none";
 
-                nowPlaying.innerHTML =
-                    "❌ Unable to play " + channel.name;
+                loading.style.display =
+                    "none";
+
+
+                video.play()
+                    .catch(
+                        function() {}
+                    );
 
             }
 
-        });
-
-    }
-
-    else if (video.canPlayType("application/vnd.apple.mpegurl")) {
-
-        video.src = channel.url;
-
-        video.addEventListener(
-            "loadedmetadata",
-            function () {
-
-                loading.style.display = "none";
-
-                video.play().catch(function () {});
-
-            },
-            { once: true }
         );
 
+
+        hls.on(
+            Hls.Events.ERROR,
+
+            function(
+                event,
+                data
+            ) {
+
+
+                if (
+                    data.fatal
+                ) {
+
+
+                    loading.style.display =
+                        "none";
+
+
+                    nowPlaying.innerHTML =
+                        "❌ Unable to play " +
+                        channel.name;
+
+                }
+
+            }
+
+        );
+
+
     }
+
+
+    else if (
+        video.canPlayType(
+            "application/vnd.apple.mpegurl"
+        )
+    ) {
+
+
+        video.src =
+            channel.url;
+
+
+        video.addEventListener(
+
+            "loadedmetadata",
+
+            function() {
+
+
+                loading.style.display =
+                    "none";
+
+
+                video.play()
+                    .catch(
+                        function() {}
+                    );
+
+            },
+
+            {
+                once: true
+            }
+
+        );
+
+
+    }
+
 
     else {
 
-        loading.style.display = "none";
+
+        loading.style.display =
+            "none";
+
 
         nowPlaying.innerHTML =
             "❌ HLS is not supported in this browser.";
@@ -641,740 +1251,543 @@ function playChannel(channel) {
 }
 
 
+
+/* =====================================================
+   SHOW CHANNELS
+===================================================== */
+
 function showChannels(list) {
 
-    channelsContainer.innerHTML = "";
 
-    if (list.length === 0) {
+    channelsContainer.innerHTML =
+        "";
+
+
+    if (
+        list.length === 0
+    ) {
+
 
         channelsContainer.innerHTML =
             "<p>No channel found.</p>";
 
+
         return;
+
     }
 
 
-    list.forEach(function(channel) {
-
-        const card = document.createElement("div");
-
-        card.className = "channel-card";
-
-        card.innerHTML = `
-            <img
-                src="${channel.logo}"
-                alt="${channel.name}"
-                onerror="this.src='https://via.placeholder.com/100'"
-            >
-
-            <div class="channel-name">
-                ${channel.name}
-            </div>
-        `;
-
-        card.addEventListener("click", function() {
-
-            playChannel(channel);
-
-        });
-
-        channelsContainer.appendChild(card);
-
-    });
-
-}
+    list.forEach(
+        function(channel) {
 
 
-searchInput.addEventListener("input", function() {
-
-    const value =
-        searchInput.value.toLowerCase().trim();
-
-    const filtered =
-        channels.filter(function(channel) {
-
-            return channel.name
-                .toLowerCase()
-                .includes(value);
-
-        });
-
-    showChannels(filtered);
-
-});
+            const card =
+                document.createElement(
+                    "div"
+                );
 
 
-showChannels(channels);
-
-</script>
-
-
-<!-- =====================================================
-     TMDB MOVIE JAVASCRIPT
-===================================================== -->
-
-<script>
-
-/*
-==========================================================
-TMDB SETUP
-==========================================================
-
-IMPORTANT:
-
-Replace the text below with your actual TMDB
-API Read Access Token.
-
-Example:
-
-const TMDB_READ_ACCESS_TOKEN =
-"eyJhbGciOiJIUzI1NiJ9.......";
-
-DO NOT use:
-
-developer.themoviedb.org
-
-That is only the documentation website.
-==========================================================
-*/
-
-const TMDB_READ_ACCESS_TOKEN =
-    "PASTE_YOUR_TMDB_READ_ACCESS_TOKEN_HERE";
+            card.className =
+                "channel-card";
 
 
-const movieContainer =
-    document.getElementById("movieContainer");
+            card.innerHTML = `
 
-const movieStatus =
-    document.getElementById("movieStatus");
+                <img
 
-const movieSearch =
-    document.getElementById("movieSearch");
+                    src="${channel.logo}"
 
-const movieModal =
-    document.getElementById("movieModal");
+                    alt="${channel.name}"
 
-const trailerFrame =
-    document.getElementById("trailerFrame");
+                    onerror="
+                        this.src='https://via.placeholder.com/100'
+                    "
 
-const movieClose =
-    document.getElementById("movieClose");
+                >
+
+                <div
+                    class="channel-name">
+
+                    ${channel.name}
+
+                </div>
+
+            `;
 
 
-let allMovies = [];
+            card.addEventListener(
+                "click",
+
+                function() {
+
+                    playChannel(
+                        channel
+                    );
+
+                }
+
+            );
 
 
-/* =========================
-   DATE
-========================= */
+            channelsContainer.appendChild(
+                card
+            );
 
-function movieDate(date) {
-
-    if (!date) {
-        return "Release date: N/A";
-    }
-
-    const d = new Date(date);
-
-    if (isNaN(d.getTime())) {
-        return "Release date: N/A";
-    }
-
-    return "📅 " + d.toLocaleDateString(
-        "en-US",
-        {
-            year: "numeric",
-            month: "short",
-            day: "numeric"
         }
     );
 
 }
 
 
-/* =========================
-   RATING
-========================= */
 
-function movieRating(rating) {
+/* =====================================================
+   CHANNEL SEARCH
+===================================================== */
 
-    if (
-        rating === null ||
-        rating === undefined ||
-        isNaN(rating)
-    ) {
-
-        return "⭐ N/A";
-
-    }
-
-    return "⭐ " +
-        Number(rating).toFixed(1);
-
-}
-
-
-/* =========================
-   FIND YOUTUBE TRAILER
-========================= */
-
-function findYoutubeTrailer(videos) {
-
-    if (
-        !videos ||
-        !videos.results ||
-        videos.results.length === 0
-    ) {
-
-        return null;
-
-    }
-
-
-    const youtubeVideos =
-        videos.results.filter(function(video) {
-
-            return (
-                video.site === "YouTube" &&
-                video.key
-            );
-
-        });
-
-
-    if (youtubeVideos.length === 0) {
-
-        return null;
-
-    }
-
-
-    /*
-      First preference:
-      Official Trailer
-    */
-
-    const officialTrailer =
-        youtubeVideos.find(function(video) {
-
-            return (
-                video.official === true &&
-                video.type === "Trailer"
-            );
-
-        });
-
-
-    if (officialTrailer) {
-
-        return officialTrailer.key;
-
-    }
-
-
-    /*
-      Second preference:
-      Any Trailer
-    */
-
-    const trailer =
-        youtubeVideos.find(function(video) {
-
-            return video.type === "Trailer";
-
-        });
-
-
-    if (trailer) {
-
-        return trailer.key;
-
-    }
-
-
-    /*
-      Third preference:
-      Teaser
-    */
-
-    const teaser =
-        youtubeVideos.find(function(video) {
-
-            return video.type === "Teaser";
-
-        });
-
-
-    if (teaser) {
-
-        return teaser.key;
-
-    }
-
-
-    return youtubeVideos[0].key;
-
-}
-
-
-/* =========================
-   ESCAPE HTML
-========================= */
-
-function movieEscape(value) {
-
-    if (
-        value === null ||
-        value === undefined
-    ) {
-
-        return "";
-
-    }
-
-    return String(value)
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
-
-}
-
-
-/* =========================
-   RENDER MOVIES
-========================= */
-
-function renderMovies(movies) {
-
-    movieContainer.innerHTML = "";
-
-
-    if (!movies || movies.length === 0) {
-
-        movieContainer.innerHTML =
-            "<p>No movies found.</p>";
-
-        return;
-
-    }
-
-
-    movies.forEach(function(movie) {
-
-        const poster =
-            movie.poster_path
-                ? "https://image.tmdb.org/t/p/w500" +
-                  movie.poster_path
-                : "https://via.placeholder.com/500x750?text=No+Poster";
-
-
-        const title =
-            movieEscape(movie.title || "Untitled");
-
-
-        const overview =
-            movieEscape(
-                movie.overview ||
-                "No description available."
-            );
-
-
-        const releaseDate =
-            movieDate(movie.release_date);
-
-
-        const rating =
-            movieRating(movie.vote_average);
-
-
-        const card =
-            document.createElement("div");
-
-        card.className = "movie-card";
-
-
-        card.innerHTML = `
-
-            <img
-                class="movie-poster"
-                src="${poster}"
-                alt="${title}"
-                loading="lazy"
-            >
-
-            <div class="movie-info">
-
-                <div class="movie-title">
-                    ${title}
-                </div>
-
-                <div class="movie-meta">
-                    ${releaseDate}
-                    <br>
-                    ${rating}
-                </div>
-
-                <div class="movie-overview">
-                    ${overview}
-                </div>
-
-                ${
-                    movie.trailer
-                    ?
-
-                    `
-                    <button
-                        class="trailer-btn"
-                        data-trailer="${movie.trailer}"
-                    >
-                        ▶ Watch Trailer
-                    </button>
-                    `
-
-                    :
-
-                    `
-                    <button
-                        class="trailer-btn"
-                        disabled
-                        style="opacity:.5;cursor:not-allowed;"
-                    >
-                        Trailer Not Available
-                    </button>
-                    `
-                }
-
-            </div>
-
-        `;
-
-
-        const trailerButton =
-            card.querySelector(".trailer-btn");
-
-
-        if (
-            trailerButton &&
-            movie.trailer
-        ) {
-
-            trailerButton.addEventListener(
-                "click",
-                function(event) {
-
-                    event.stopPropagation();
-
-                    openTrailer(movie.trailer);
-
-                }
-            );
-
-        }
-
-
-        movieContainer.appendChild(card);
-
-    });
-
-}
-
-
-/* =========================
-   GET MOVIE DETAILS
-========================= */
-
-async function getMovieDetails(movie) {
-
-    try {
-
-        const url =
-            "https://api.themoviedb.org/3/movie/" +
-            movie.id +
-            "?append_to_response=videos&language=en-US";
-
-
-        const response =
-            await fetch(url, {
-
-                headers: {
-
-                    "Authorization":
-                        "Bearer " +
-                        TMDB_READ_ACCESS_TOKEN,
-
-                    "accept":
-                        "application/json"
-
-                }
-
-            });
-
-
-        if (!response.ok) {
-
-            throw new Error(
-                "TMDB API error: " +
-                response.status
-            );
-
-        }
-
-
-        const data =
-            await response.json();
-
-
-        return {
-
-            ...movie,
-
-            trailer:
-                findYoutubeTrailer(data.videos)
-
-        };
-
-    }
-
-    catch (error) {
-
-        console.error(
-            "Movie details error:",
-            error
-        );
-
-
-        return {
-
-            ...movie,
-
-            trailer: null
-
-        };
-
-    }
-
-}
-
-
-/* =========================
-   LOAD MOVIES
-========================= */
-
-async function loadMovies() {
-
-    if (
-        !TMDB_READ_ACCESS_TOKEN ||
-        TMDB_READ_ACCESS_TOKEN ===
-        "PASTE_YOUR_TMDB_READ_ACCESS_TOKEN_HERE"
-    ) {
-
-        movieStatus.innerHTML =
-            "⚠️ Please add your TMDB API Read Access Token in the code.";
-
-        return;
-
-    }
-
-
-    movieStatus.innerHTML =
-        "⏳ Loading latest movies...";
-
-
-    try {
-
-        const today =
-            new Date()
-                .toISOString()
-                .split("T")[0];
-
-
-        const url =
-            "https://api.themoviedb.org/3/discover/movie" +
-
-            "?include_adult=false" +
-
-            "&include_video=false" +
-
-            "&language=en-US" +
-
-            "&page=1" +
-
-            "&sort_by=primary_release_date.desc" +
-
-            "&release_date.lte=" +
-            today +
-
-            "&with_release_type=2|3|4";
-
-
-        const response =
-            await fetch(url, {
-
-                headers: {
-
-                    "Authorization":
-                        "Bearer " +
-                        TMDB_READ_ACCESS_TOKEN,
-
-                    "accept":
-                        "application/json"
-
-                }
-
-            });
-
-
-        if (!response.ok) {
-
-            throw new Error(
-                "TMDB error: " +
-                response.status
-            );
-
-        }
-
-
-        const data =
-            await response.json();
-
-
-        let movies =
-            data.results || [];
-
-
-        /*
-          Remove movies without release date
-        */
-
-        movies =
-            movies.filter(function(movie) {
-
-                return movie.release_date;
-
-            });
-
-
-        /*
-          First 18 movies
-        */
-
-        movies =
-            movies.slice(0, 18);
-
-
-        movieStatus.innerHTML =
-            "⏳ Loading movie trailers...";
-
-
-        /*
-          Get trailer information
-        */
-
-        allMovies =
-            await Promise.all(
-                movies.map(getMovieDetails)
-            );
-
-
-        renderMovies(allMovies);
-
-
-        movieStatus.innerHTML =
-            "🎬 Latest Movies";
-
-
-    }
-
-    catch (error) {
-
-        console.error(
-            "TMDB loading error:",
-            error
-        );
-
-
-        movieStatus.innerHTML =
-            "❌ Could not load movies. Please check your TMDB token.";
-
-    }
-
-}
-
-
-/* =========================
-   MOVIE SEARCH
-========================= */
-
-movieSearch.addEventListener(
+searchInput.addEventListener(
     "input",
+
     function() {
 
+
         const value =
-            movieSearch.value
+            searchInput.value
                 .toLowerCase()
                 .trim();
 
 
-        if (!value) {
-
-            renderMovies(allMovies);
-
-            return;
-
-        }
-
-
         const filtered =
-            allMovies.filter(function(movie) {
+            channels.filter(
 
-                return (
-                    movie.title &&
-                    movie.title
+                function(channel) {
+
+
+                    return channel.name
                         .toLowerCase()
-                        .includes(value)
-                );
+                        .includes(value);
 
-            });
+                }
+
+            );
 
 
-        renderMovies(filtered);
+        showChannels(
+            filtered
+        );
 
     }
+
 );
 
 
-/* =========================
-   OPEN TRAILER
-========================= */
 
-function openTrailer(videoKey) {
+showChannels(
+    channels
+);
 
-    if (!videoKey) {
+</script>
+
+
+
+<!-- =====================================================
+     FREE MOVIE JAVASCRIPT
+===================================================== -->
+
+<script>
+
+
+/*
+=========================================================
+FREE MOVIE DATABASE
+
+TMDB API IS NOT REQUIRED
+=========================================================
+*/
+
+
+const freeMovies = [
+
+
+    {
+        title:
+        "The General",
+
+        year:
+        "1926",
+
+        date:
+        "1926",
+
+        rating:
+        "⭐ Public Domain",
+
+        poster:
+        "https://commons.wikimedia.org/wiki/Special:Redirect/file/The_General_(1926)_-_Movie_Poster.png",
+
+        video:
+        "https://commons.wikimedia.org/wiki/Special:Redirect/file/The_General_(1926).webm",
+
+        source:
+        "https://commons.wikimedia.org/wiki/File:The_General_(1926).webm",
+
+        description:
+        "A classic silent comedy starring Buster Keaton."
+    },
+
+
+    {
+        title:
+        "His Girl Friday",
+
+        year:
+        "1940",
+
+        date:
+        "1940",
+
+        rating:
+        "⭐ Public Domain",
+
+        poster:
+        "https://commons.wikimedia.org/wiki/Special:Redirect/file/His_Girl_Friday_(1940).jpg",
+
+        video:
+        "https://commons.wikimedia.org/wiki/Special:Redirect/file/His_Girl_Friday_(1940).ogv",
+
+        source:
+        "https://commons.wikimedia.org/wiki/File:His_Girl_Friday_(1940).ogv",
+
+        description:
+        "A classic American comedy starring Cary Grant and Rosalind Russell."
+    }
+
+];
+
+
+
+/* =====================================================
+   MOVIE ELEMENTS
+===================================================== */
+
+const movieContainer =
+    document.getElementById(
+        "movieContainer"
+    );
+
+
+const movieStatus =
+    document.getElementById(
+        "movieStatus"
+    );
+
+
+const movieSearch =
+    document.getElementById(
+        "movieSearch"
+    );
+
+
+const movieModal =
+    document.getElementById(
+        "movieModal"
+    );
+
+
+const movieVideo =
+    document.getElementById(
+        "movieVideo"
+    );
+
+
+const movieClose =
+    document.getElementById(
+        "movieClose"
+    );
+
+
+
+/* =====================================================
+   ESCAPE HTML
+===================================================== */
+
+function escapeMovie(value) {
+
+
+    return String(
+        value || ""
+    )
+
+    .replace(
+        /&/g,
+        "&amp;"
+    )
+
+    .replace(
+        /</g,
+        "&lt;"
+    )
+
+    .replace(
+        />/g,
+        "&gt;"
+    )
+
+    .replace(
+        /"/g,
+        "&quot;"
+    )
+
+    .replace(
+        /'/g,
+        "&#039;"
+    );
+
+}
+
+
+
+/* =====================================================
+   SHOW MOVIES
+===================================================== */
+
+function showMovies(list) {
+
+
+    movieContainer.innerHTML =
+        "";
+
+
+    if (
+        list.length === 0
+    ) {
+
+
+        movieContainer.innerHTML =
+            "<p>No movie found.</p>";
+
+
         return;
+
     }
 
 
-    trailerFrame.src =
-        "https://www.youtube.com/embed/" +
-        encodeURIComponent(videoKey) +
-        "?autoplay=1";
+    list.forEach(
+        function(movie) {
+
+
+            const card =
+                document.createElement(
+                    "div"
+                );
+
+
+            card.className =
+                "movie-card";
+
+
+            card.innerHTML = `
+
+                <img
+
+                    class="movie-poster"
+
+                    src="${movie.poster}"
+
+                    alt="${escapeMovie(
+                        movie.title
+                    )}"
+
+                    loading="lazy"
+
+                    onerror="
+                        this.src='https://via.placeholder.com/500x750?text=Movie'
+                    "
+
+                >
+
+
+                <div
+                    class="movie-info">
+
+
+                    <div
+                        class="movie-title">
+
+                        ${escapeMovie(
+                            movie.title
+                        )}
+
+                    </div>
+
+
+                    <div
+                        class="movie-meta">
+
+                        📅 ${escapeMovie(
+                            movie.date
+                        )}
+
+                        <br>
+
+                        ${escapeMovie(
+                            movie.rating
+                        )}
+
+                    </div>
+
+
+                    <div
+                        class="movie-overview">
+
+                        ${escapeMovie(
+                            movie.description
+                        )}
+
+                    </div>
+
+
+                    <button
+                        class="watch-movie-btn">
+
+                        ▶ Watch Full Movie
+
+                    </button>
+
+
+                    <button
+                        class="source-btn">
+
+                        ℹ️ Source / License
+
+                    </button>
+
+
+                </div>
+
+            `;
+
+
+
+            /* WATCH BUTTON */
+
+            const watchButton =
+                card.querySelector(
+                    ".watch-movie-btn"
+                );
+
+
+            watchButton.addEventListener(
+
+                "click",
+
+                function() {
+
+                    openMovie(
+                        movie.video
+                    );
+
+                }
+
+            );
+
+
+
+            /* SOURCE BUTTON */
+
+            const sourceButton =
+                card.querySelector(
+                    ".source-btn"
+                );
+
+
+            sourceButton.addEventListener(
+
+                "click",
+
+                function() {
+
+
+                    window.open(
+
+                        movie.source,
+
+                        "_blank"
+
+                    );
+
+                }
+
+            );
+
+
+            movieContainer.appendChild(
+                card
+            );
+
+        }
+    );
+
+}
+
+
+
+/* =====================================================
+   OPEN FULL MOVIE
+===================================================== */
+
+function openMovie(url) {
+
+
+    if (!url) {
+
+
+        alert(
+            "Movie video URL is not available."
+        );
+
+
+        return;
+
+    }
+
+
+    movieVideo.pause();
+
+
+    movieVideo.src =
+        url;
 
 
     movieModal.style.display =
         "flex";
 
+
+    movieVideo.play()
+        .catch(
+            function() {}
+        );
+
 }
 
 
-/* =========================
-   CLOSE TRAILER
-========================= */
 
-function closeTrailer() {
+/* =====================================================
+   CLOSE MOVIE
+===================================================== */
 
-    trailerFrame.src = "";
+function closeMovie() {
+
+
+    movieVideo.pause();
+
+
+    movieVideo.removeAttribute(
+        "src"
+    );
+
+
+    movieVideo.load();
+
 
     movieModal.style.display =
         "none";
@@ -1382,48 +1795,147 @@ function closeTrailer() {
 }
 
 
+
+/* =====================================================
+   CLOSE BUTTON
+===================================================== */
+
 movieClose.addEventListener(
+
     "click",
-    closeTrailer
+
+    closeMovie
+
 );
 
+
+
+/* =====================================================
+   CLICK OUTSIDE
+===================================================== */
 
 movieModal.addEventListener(
+
     "click",
+
     function(event) {
 
-        if (event.target === movieModal) {
 
-            closeTrailer();
+        if (
+            event.target ===
+            movieModal
+        ) {
+
+
+            closeMovie();
 
         }
 
     }
+
 );
 
+
+
+/* =====================================================
+   ESC KEY
+===================================================== */
 
 document.addEventListener(
+
     "keydown",
+
     function(event) {
 
-        if (event.key === "Escape") {
 
-            closeTrailer();
+        if (
+            event.key ===
+            "Escape"
+        ) {
+
+
+            closeMovie();
 
         }
 
     }
+
 );
 
 
-/* =========================
-   START MOVIE API
-========================= */
 
-loadMovies();
+/* =====================================================
+   MOVIE SEARCH
+===================================================== */
+
+movieSearch.addEventListener(
+
+    "input",
+
+    function() {
+
+
+        const value =
+            movieSearch.value
+                .toLowerCase()
+                .trim();
+
+
+        const filtered =
+            freeMovies.filter(
+
+                function(movie) {
+
+
+                    return (
+
+                        movie.title
+                            .toLowerCase()
+                            .includes(
+                                value
+                            )
+
+                        ||
+
+                        movie.year
+                            .includes(
+                                value
+                            )
+
+                    );
+
+                }
+
+            );
+
+
+        showMovies(
+            filtered
+        );
+
+    }
+
+);
+
+
+
+/* =====================================================
+   START MOVIES
+===================================================== */
+
+showMovies(
+    freeMovies
+);
+
+
+movieStatus.innerHTML =
+    "🎬 " +
+    freeMovies.length +
+    " free/public-domain movies";
 
 </script>
 
+
 </body>
+
 </html>
-```
