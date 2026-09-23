@@ -289,6 +289,139 @@ footer {
 
 }
 
+
+/* =========================================================
+   MOVIES - ADDED WITHOUT CHANGING THE EXISTING TV CODE
+   ========================================================= */
+.movie-section {
+    margin-top: 35px;
+    padding: 20px 0;
+}
+.movie-section h2 {
+    text-align: center;
+    font-size: 28px;
+    margin-bottom: 18px;
+}
+.movie-search {
+    width: 100%;
+    padding: 14px;
+    margin: 0 0 18px;
+    border: none;
+    border-radius: 8px;
+    background: #181818;
+    color: #fff;
+    font-size: 16px;
+    outline: none;
+}
+.movie-search::placeholder { color: #888; }
+.movie-status {
+    text-align: center;
+    color: #aaa;
+    padding: 20px;
+}
+.movie-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+    gap: 16px;
+}
+.movie-card {
+    background: #151515;
+    border: 1px solid #292929;
+    border-radius: 12px;
+    overflow: hidden;
+    transition: .2s;
+}
+.movie-card:hover {
+    transform: translateY(-4px);
+    background: #1d1d1d;
+}
+.movie-poster {
+    width: 100%;
+    height: 285px;
+    object-fit: cover;
+    display: block;
+    background: #222;
+}
+.movie-info { padding: 13px; }
+.movie-title {
+    margin: 0 0 8px;
+    font-size: 17px;
+    line-height: 1.35;
+}
+.movie-meta {
+    color: #bbb;
+    font-size: 13px;
+    line-height: 1.7;
+}
+.movie-overview {
+    color: #aaa;
+    font-size: 13px;
+    line-height: 1.5;
+    margin: 8px 0 10px;
+}
+.trailer-btn {
+    display: inline-block;
+    padding: 9px 13px;
+    background: #d90000;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 6px;
+    font-size: 14px;
+    cursor: pointer;
+    border: 0;
+}
+.trailer-btn:hover { background: #ff2222; }
+
+.movie-modal {
+    display: none;
+    position: fixed;
+    z-index: 99999;
+    inset: 0;
+    background: rgba(0,0,0,.88);
+    align-items: center;
+    justify-content: center;
+    padding: 18px;
+}
+.movie-modal-box {
+    width: min(900px, 100%);
+    background: #111;
+    border-radius: 12px;
+    overflow: hidden;
+    position: relative;
+}
+.movie-modal iframe {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    border: 0;
+    display: block;
+}
+.movie-close {
+    position: absolute;
+    right: 10px;
+    top: 7px;
+    z-index: 2;
+    width: 38px;
+    height: 38px;
+    border: 0;
+    border-radius: 50%;
+    background: rgba(0,0,0,.75);
+    color: #fff;
+    font-size: 24px;
+    cursor: pointer;
+}
+.tmdb-credit {
+    text-align: center;
+    color: #777;
+    font-size: 12px;
+    margin-top: 15px;
+}
+@media(max-width:600px) {
+    .movie-container { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+    .movie-poster { height: 240px; }
+    .movie-title { font-size: 15px; }
+    .movie-overview { font-size: 12px; }
+}
+
 </style>
 
 </head>
@@ -750,6 +883,295 @@ showChannels(channels);
 
 </script>
 
+
+
+<!-- =========================================================
+     MOVIE API JAVASCRIPT - ADDED SECTION
+     ========================================================= -->
+<script>
+/*
+ * 1) Create a TMDB account and request an API key.
+ * 2) Paste your TMDB API key below.
+ *
+ * TMDB API documentation:
+ * https://developer.themoviedb.org/docs/getting-started
+ */
+const TMDB_API_KEY = "PASTE_YOUR_TMDB_API_KEY_HERE";
+
+const movieContainer = document.getElementById("movieContainer");
+const movieStatus = document.getElementById("movieStatus");
+const movieSearch = document.getElementById("movieSearch");
+const movieModal = document.getElementById("movieModal");
+const trailerFrame = document.getElementById("trailerFrame");
+const movieClose = document.getElementById("movieClose");
+
+let allMovies = [];
+
+/* Escape text before putting API data into HTML */
+function movieEscape(value) {
+    return String(value ?? "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+}
+
+function movieDate(date) {
+    if (!date) return "Release date: N/A";
+
+    const d = new Date(date + "T00:00:00");
+    if (Number.isNaN(d.getTime())) {
+        return "Release date: " + movieEscape(date);
+    }
+
+    return "Release date: " + d.toLocaleDateString("en-GB", {
+        day: "2-digit",
+        month: "short",
+        year: "numeric"
+    });
+}
+
+function movieRating(value) {
+    const n = Number(value);
+    return Number.isFinite(n) && n > 0
+        ? "⭐ " + n.toFixed(1) + "/10"
+        : "⭐ N/A";
+}
+
+function findYoutubeTrailer(videos) {
+    if (!videos || !videos.results) return null;
+
+    const list = videos.results;
+
+    const officialTrailer = list.find(v =>
+        v.site === "YouTube" &&
+        v.type === "Trailer" &&
+        v.official === true
+    );
+
+    if (officialTrailer) return officialTrailer;
+
+    const anyTrailer = list.find(v =>
+        v.site === "YouTube" &&
+        v.type === "Trailer"
+    );
+
+    if (anyTrailer) return anyTrailer;
+
+    return list.find(v =>
+        v.site === "YouTube" &&
+        (v.type === "Teaser" || v.type === "Clip")
+    ) || null;
+}
+
+function renderMovies(list) {
+    movieContainer.innerHTML = "";
+
+    if (!list.length) {
+        movieContainer.innerHTML =
+            '<div class="movie-status">No movie found.</div>';
+        return;
+    }
+
+    list.forEach(movie => {
+        const poster = movie.poster_path
+            ? "https://image.tmdb.org/t/p/w500" + movie.poster_path
+            : "https://via.placeholder.com/500x750?text=No+Poster";
+
+        const overview = movie.overview
+            ? movie.overview.length > 140
+                ? movie.overview.substring(0, 140) + "..."
+                : movie.overview
+            : "No description available.";
+
+        const trailer = movie.trailer;
+
+        const card = document.createElement("article");
+        card.className = "movie-card";
+
+        card.innerHTML = `
+            <img
+                class="movie-poster"
+                src="${poster}"
+                alt="${movieEscape(movie.title)}"
+                loading="lazy"
+                onerror="this.src='https://via.placeholder.com/500x750?text=No+Poster'"
+            >
+
+            <div class="movie-info">
+                <h3 class="movie-title">
+                    ${movieEscape(movie.title)}
+                </h3>
+
+                <div class="movie-meta">
+                    📅 ${movieDate(movie.release_date)}
+                    <br>
+                    ${movieRating(movie.vote_average)}
+                </div>
+
+                <p class="movie-overview">
+                    ${movieEscape(overview)}
+                </p>
+
+                ${
+                    trailer
+                    ? `<button class="trailer-btn" data-key="${movieEscape(trailer.key)}">
+                         ▶ Watch Trailer
+                       </button>`
+                    : `<span class="movie-meta">Trailer not available</span>`
+                }
+            </div>
+        `;
+
+        const btn = card.querySelector(".trailer-btn");
+
+        if (btn) {
+            btn.addEventListener("click", () => {
+                openTrailer(btn.dataset.key);
+            });
+        }
+
+        movieContainer.appendChild(card);
+    });
+}
+
+async function getMovieDetails(movie) {
+    const url =
+        "https://api.themoviedb.org/3/movie/" +
+        movie.id +
+        "?append_to_response=videos&language=en-US";
+
+    const response = await fetch(url, {
+        headers: {
+            "Authorization": "Bearer " + TMDB_API_KEY,
+            "accept": "application/json"
+        }
+    });
+
+    if (!response.ok) {
+        throw new Error("Movie details request failed: " + response.status);
+    }
+
+    const details = await response.json();
+
+    return {
+        ...movie,
+        trailer: findYoutubeTrailer(details.videos)
+    };
+}
+
+async function loadMovies() {
+    if (
+        !TMDB_API_KEY ||
+        TMDB_API_KEY === "PASTE_YOUR_TMDB_API_KEY_HERE"
+    ) {
+        movieStatus.innerHTML =
+            "⚠️ TMDB API key বসান। Code-এর উপরের TMDB_API_KEY অংশে আপনার key দিন।";
+        return;
+    }
+
+    movieStatus.innerHTML = "⏳ Loading latest movies...";
+    movieContainer.innerHTML = "";
+
+    try {
+        const today = new Date().toISOString().slice(0, 10);
+
+        /*
+         * Discover movies released recently.
+         * Sorting is by primary release date, newest first.
+         */
+        const url =
+            "https://api.themoviedb.org/3/discover/movie" +
+            "?include_adult=false" +
+            "&include_video=false" +
+            "&language=en-US" +
+            "&page=1" +
+            "&sort_by=primary_release_date.desc" +
+            "&release_date.lte=" + today +
+            "&with_release_type=2|3|4";
+
+        const response = await fetch(url, {
+            headers: {
+                "Authorization": "Bearer " + TMDB_API_KEY,
+                "accept": "application/json"
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error("Movie list request failed: " + response.status);
+        }
+
+        const data = await response.json();
+
+        /*
+         * Get trailer together with movie details.
+         * Limit to 18 movies to reduce API requests.
+         */
+        const movies = (data.results || []).slice(0, 18);
+
+        allMovies = await Promise.all(
+            movies.map(movie =>
+                getMovieDetails(movie).catch(() => ({
+                    ...movie,
+                    trailer: null
+                }))
+            )
+        );
+
+        movieStatus.innerHTML = "";
+        renderMovies(allMovies);
+
+    } catch (error) {
+        console.error("Movie API error:", error);
+        movieStatus.innerHTML =
+            "❌ Movie data load হয়নি। API key বা API connection check করুন।";
+    }
+}
+
+function openTrailer(youtubeKey) {
+    if (!youtubeKey) return;
+
+    trailerFrame.src =
+        "https://www.youtube.com/embed/" +
+        encodeURIComponent(youtubeKey) +
+        "?autoplay=1&rel=0";
+
+    movieModal.style.display = "flex";
+}
+
+function closeTrailer() {
+    movieModal.style.display = "none";
+    trailerFrame.src = "";
+}
+
+movieClose.addEventListener("click", closeTrailer);
+
+movieModal.addEventListener("click", function(event) {
+    if (event.target === movieModal) {
+        closeTrailer();
+    }
+});
+
+document.addEventListener("keydown", function(event) {
+    if (event.key === "Escape") {
+        closeTrailer();
+    }
+});
+
+movieSearch.addEventListener("input", function() {
+    const keyword = movieSearch.value.toLowerCase().trim();
+
+    const filtered = allMovies.filter(movie =>
+        (movie.title || "").toLowerCase().includes(keyword)
+    );
+
+    renderMovies(filtered);
+});
+
+/* Start movie system */
+loadMovies();
+</script>
 
 </body>
 </html>
